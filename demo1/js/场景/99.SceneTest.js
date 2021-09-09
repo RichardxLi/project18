@@ -59,9 +59,7 @@ class SceneTest extends SceneBase {
         this.window.update();
         this.wSelect.update();
         this.sAnim.updateBase();
-
-        log(IInput.mouseButton);
-
+        
         this.window.clear();
         let msg = "图片当前坐标 ("+parseInt(this.sObject.x)+","+parseInt(this.sObject.y)+")\n换行测试";
         this.window.drawTextEx(msg, 0, 0, IColor.Blue());
