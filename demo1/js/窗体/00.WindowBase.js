@@ -9,9 +9,11 @@ class WindowBase {
         this.z = 1000;
         this.width = width;
         this.height = height;
-        this.standardPadding = 12;
-        this.fontSize = 24;
+        this.standardPadding = RV.System.Padding;
+        this.fontSize = RV.System.FontSize;
         this.active = false;
+        this.textColor = IColor.White();
+
 
         // 背景色
         this._colorBackgroud = new IColor(0,0,0,180);
@@ -23,6 +25,9 @@ class WindowBase {
         this._content = null;
         // 无窗口模式
         this._noWindow = false;
+
+        this._currentTextColor = IColor.White();
+        this._text = "";
     };
 
     // 初始化
@@ -36,9 +41,6 @@ class WindowBase {
     createWindow(noWindow) {
         if(this._window!=null) this._window.dispose();
         this._window = new ISprite(this.width, this.height, this._colorBackgroud);
-        this._window.x = this.x;
-        this._window.y = this.y;
-        this._window.z = this.z;
         if(noWindow) {
             this._window.opacity = 0;
         }
@@ -47,9 +49,6 @@ class WindowBase {
     createViewport() {
         if(this._viewport!=null) this._viewport.dispose();
         this._viewport = new IViewport(0, 0, this.contentWidth, this.contentHeight);
-        this._viewport.x = this.x + this.standardPadding;
-        this._viewport.y = this.y + this.standardPadding;
-        this._viewport.z = this.z+1;
     };
 
     createContent() {
@@ -67,7 +66,6 @@ class WindowBase {
     // 析构
     dispose() {
         if(this._window != null) this._window.dispose();
-        if(this._viewport != null) this._content.dispose();
         if(this._content != null) this._content.dispose();
     };
 
@@ -150,44 +148,99 @@ class WindowBase {
         this._content.drawTextQ(text,x,y,color,this.fontSize);
     };
 
-    drawTextEx(text, x, y, color) {
-        let height = IFont.getHeight(text, this.fontSize)
+    drawTextEx(text, x, y, color=null) {
+        if(color != null) {
+            this.textColor = color;
+            this._currentTextColor = color;
+        }
+        this._text = text;
+        let height = IFont.getHeight(this._text, this.fontSize)
         let pos = {x:x, y:y, new_x:x, lineHeight:height}
         while(true) {
-            let c = text.substring(0,1);
-            text = text.substring(1 , text.length);
-            this._processCharacter(c, pos, text, color);
-            if(text.length<=0) {
+            let c = this._text.substring(0,1);
+            this._text = this._text.substring(1, this._text.length);
+            this._processCharacter(c, pos);
+            if(this._text.length<=0) {
                 break;
             }
         }
     };
 
-    _processCharacter(c, pos, text, color) {
+    _processCharacter(c, pos) {
         switch(c) {
             case '\n': // new line
-                this._processNormalLine(text, pos);
+                this._processNewLine(pos);
                 break;
             case '\f': //  new page
-                this._processNormalPage(text, pos);
+                this._processNewPage(pos);
+                break;
+            case '\c': // color
+                this._processColor();
                 break;
             default:
-                this._processNormalCharacter(c, pos, color);
+                this._processNormalCharacter(c, pos);
         }
     };
 
-    _processNormalCharacter(c, pos, color) {
-        this.drawText(c, pos.x, pos.y, color);
+    _processNormalCharacter(c, pos) {
+        this.drawText(c, pos.x, pos.y, this._currentTextColor);
         pos.x += IFont.getWidth(c, this.fontSize)
     };
 
-    _processNormalLine(text, pos) {
+    _processNewLine(pos) {
         pos.x  = pos.new_x;
         pos.y += pos.lineHeight;
-        pos.lineHeight = IFont.getHeight(text,this.fontSize);
+        pos.lineHeight = IFont.getHeight(this._text,this.fontSize);
     };
 
-    _processNormalPage(text, pos) {};
+    _processNewPage(pos) {};
+
+    _processColor() {
+        let c = this._text.substring(0,1);
+        this._text = this._text.substring(1 , this._text.length);
+        switch (parseInt(c)) {
+            case 0:
+                this._currentTextColor = this.C0;
+                break;
+            case 1:
+                this._currentTextColor = this.C1;
+                break;
+            case 2:
+                this._currentTextColor = this.C2;
+                break;
+            case 3:
+                this._currentTextColor = this.C3;
+                break;
+            case 4:
+                this._currentTextColor = this.C4;
+                break;
+            case 5:
+                this._currentTextColor = this.C5;
+                break;
+            default:
+                this._currentTextColor = this.C0;
+        }
+    };
+
+    // 文本颜色
+    get C0() {
+        return this.textColor;
+    }
+    get C1() {
+        return IColor.White();
+    }
+    get C2() {
+        return IColor.Black();
+    }
+    get C3() {
+        return IColor.Red();
+    }
+    get C4() {
+        return IColor.Blue();
+    }
+    get C5() {
+        return IColor.Green();
+    }
 
     // 清空内容
     clear() {

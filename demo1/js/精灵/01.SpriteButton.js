@@ -29,8 +29,4 @@ class SpriteButton extends IButton {
     cancelFocus() {
         this.setBitmap(this._bmp1, this._bmp2);
     }
-
-    dispose() {
-        super.disposeMin();
-    }
 }

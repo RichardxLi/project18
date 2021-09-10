@@ -54,7 +54,7 @@ class SceneStart extends SceneBase {
             this.logo.setOnEndFade(function(){
                 logo.fadeTo(0.01,80);
                 logo.setOnEndFade(function(){
-                    IVal.scene.goto(new SceneTest());
+                    IVal.scene.goto(new SceneDebug());
                 })
             });
         }
@@ -70,5 +70,9 @@ class SceneStart extends SceneBase {
     initGameData() {
         RV.GameData.Set = new GameSet();
         RV.GameData.Set.load();
+        RV.GameData.Temp = new GameTemp();
+        RV.GameData.Temp.reset();
+        RV.GameData.Battle = new GameBattle();
+        RV.GameData.Battle.reset();
     }
 }

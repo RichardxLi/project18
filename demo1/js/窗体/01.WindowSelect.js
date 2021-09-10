@@ -27,13 +27,22 @@ class WindowSelect extends WindowBase {
 
     // 析构
     dispose() {
+        for (let i=0; i<this._buttons.length;i++) {
+            if(this._buttons[i]!=null) {
+                this._buttons[i].dispose();
+            }
+        }
+        super.dispose();
+    };
+
+    disposeMin() {
         super.dispose();
         for (let i=0; i<this._buttons.length;i++) {
             if(this._buttons[i]!=null) {
-                this._buttons[i].dispose()
+                this._buttons[i].disposeMin();
             }
         }
-    };
+    }
 
     // 主循环
     update() {

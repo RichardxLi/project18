@@ -12,6 +12,8 @@ class SceneBase {
         this.background = null;
         // 动画
         this.anims = [];
+        // 渐变
+        this.transform = true;
     }
 
     update() {
@@ -48,8 +50,8 @@ class SceneBase {
     }
 
     // transform: 是否渐变
-    dispose(transform=true) {
-        if(transform) {
+    dispose() {
+        if(this.transform) {
             this.background.fadeTo(0,40);
             let __bg = this.background;
             this.background.setOnEndFade(function(){
@@ -62,6 +64,7 @@ class SceneBase {
 
     // transform: 是否渐变
     goto(scene, transform=true) {
+        this.transform = transform;
         this.dispose();
         IVal.scene = scene;
     }
