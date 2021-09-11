@@ -87,7 +87,7 @@ class SceneDebug extends SceneBase {
     // -----------------------
     initGameBattle() {
         RV.GameData.Battle.log[0] = "战斗开始";
-        RV.GameData.Battle.log[1] = "----------";
+        RV.GameData.Battle.log[1] = "\c2----------";
         RV.GameData.Battle.log[2] = "第1回合";
         RV.GameData.Battle.log[3] = "\c3京豪\c0结算\c4送终刀锋\c0造成\c310000\c0伤害";
     }

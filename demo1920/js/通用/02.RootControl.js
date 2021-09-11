@@ -16,11 +16,15 @@ RC.Key = {
 };
 
 RC.IsKeyOK = function(){
-    return IInput.isKeyDown(32) || IInput.isKeyDown(13)
+    return IInput.isKeyDown(32) || IInput.isKeyDown(13);
 };
 
 RC.IsKeyExit = function() {
-    return IInput.isKeyPress(18) && IInput.isKeyPress(115)
+    return IInput.isKeyPress(18) && IInput.isKeyPress(115);
+};
+
+RC.IsKeyFull = function() {
+    return IInput.isKeyPress(18) && IInput.isKeyPress(13);
 };
 
 /**

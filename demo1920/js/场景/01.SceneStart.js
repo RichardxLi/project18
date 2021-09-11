@@ -17,7 +17,7 @@ class SceneStart extends SceneBase {
         this.loadDatabase();
 
         // 设置logo
-        let logoBmp = RF.LoadBitmap("game_logo.png");
+        let logoBmp = RF.LoadBitmap("Picture/game_logo.png");
         this.logo = new ISprite(logoBmp);
         this.logo.z = 2000;
         this.logo.yx = 0.5;

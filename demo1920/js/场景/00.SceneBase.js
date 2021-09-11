@@ -22,6 +22,12 @@ class SceneBase {
             gameClose();
         }
 
+        // alt+Enter 全屏
+        if(RC.IsKeyFull()) {
+            RV.System.Full = (RV.System.Full+1)%2;
+            setWindowStatus(RV.System.Full);
+        }
+
         // 加载中 - 不执行循环
         if(this.loading) return;
 

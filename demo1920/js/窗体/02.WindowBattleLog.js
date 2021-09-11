@@ -8,7 +8,7 @@ class WindowBattleLog extends WindowBase {
         super(0, 0, RV.System.Width, 54);
         this.sButton = null;
         this.wBattleLogs = new WindowBattleLogs(this);
-    }
+    };
 
     init() {
         this.createWindow();
@@ -17,19 +17,19 @@ class WindowBattleLog extends WindowBase {
         this.createContent();
         this.z = 5000;
         this.wBattleLogs.init();
-    }
+    };
 
     createWindow() {
         let bitmap = RF.LoadCache("Window/battle_log_bg.png");
         this._window = new ISprite(bitmap);
-    }
+    };
 
     createSprite() {
         let bitmap = RF.LoadCache("Window/battle_log_down.png");
         this.sButton = new ISprite(bitmap, this._viewport);
         this.sButton.x = this.contentWidth - this.sButton.width;
         this.sButton.z = 2;
-    }
+    };
 
     createContent() {
         let bitmap = new IBitmap.CBitmap(
@@ -37,20 +37,32 @@ class WindowBattleLog extends WindowBase {
             this.contentHeight);
         this._content = new ISprite(bitmap, this._viewport);
         this._content.z = 1;
-    }
+    };
 
     dispose() {
         if(this._window!=null) this._window.disposeMin();
         if(this._content!=null) this._content.dispose();
         if(this.sButton!=null) this.sButton.disposeMin();
-    }
+    };
 
     update() {
         super.update();
-        this.updateBasic();
         this.wBattleLogs.update();
-        if(!this.active) return;
+        if(this._content.visible) this.updateContent();
+        if(this.active) this.updateBasic();
+    };
 
+    updateContent() {
+        this.clear();
+        let n = RV.GameData.Battle.log.length;
+        let text = "";
+        if(n>0) {
+            text = RV.GameData.Battle.log[n-1];
+            this.drawTextEx(text, 0, 0);
+        }
+    };
+
+    updateBasic() {
         if(this.sButton.isSelected() && IInput.up) {
             IInput.up = false;
             this.hide();
@@ -61,15 +73,5 @@ class WindowBattleLog extends WindowBase {
         if(RV.System.Debug && IInput.isKeyDown(120)) {
             IVal.scene.goto(new SceneDebug());
         }
-    }
-
-    updateBasic() {
-        this.clear();
-        let n = RV.GameData.Battle.log.length;
-        let text = "";
-        if(n>0) {
-            text = RV.GameData.Battle.log[n-1];
-            this.drawTextEx(text, 0, 0);
-        }
-    }
+    };
 }

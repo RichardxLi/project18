@@ -12,7 +12,8 @@ function iFActionGameStart(){
     IVal.scene = new SceneStart();
     // 全屏
     if(!IVal.DEBUG) {
-        setWindowStatus(1);
+        RV.System.Full = 1;
+        setWindowStatus(RV.System.Full);
     }
 }
 

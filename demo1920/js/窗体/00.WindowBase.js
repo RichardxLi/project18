@@ -14,7 +14,6 @@ class WindowBase {
         this.active = false;
         this.textColor = IColor.White();
 
-
         // 背景色
         this._colorBackgroud = new IColor(0,0,0,180);
         // 窗口精灵
@@ -149,10 +148,8 @@ class WindowBase {
     };
 
     drawTextEx(text, x, y, color=null) {
-        if(color != null) {
-            this.textColor = color;
-            this._currentTextColor = color;
-        }
+        if(color != null) this.textColor = color;
+        this._currentTextColor = this.textColor;
         this._text = text;
         let height = IFont.getHeight(this._text, this.fontSize)
         let pos = {x:x, y:y, new_x:x, lineHeight:height}
