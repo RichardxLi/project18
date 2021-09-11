@@ -7,7 +7,7 @@ function iFActionGameStart(){
     // 设置默认文字颜色
     IVal.FontColor = IColor.White();
     // 设置默认文字大小
-    IVal.FontSize = 18;
+    IVal.FontSize = 24;
     // 设置首个Scene
     IVal.scene = new SceneStart();
     // 全屏
