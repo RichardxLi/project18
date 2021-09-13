@@ -7,9 +7,7 @@ function RD(){};
 RD._objects = [];
 RD.LoadObjects = function() {
     // 缺省
-    RD._objects[0] = new DataObject();
-    // 测试
-    RD._objects[1] = {id:1, picture:"ifaction_logo.png"};
+    RD._objects = _DataObject;
 };
 RD.Object = function(id) {
    if(RD._objects[id] == null) {
