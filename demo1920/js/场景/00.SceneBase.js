@@ -59,9 +59,9 @@ class SceneBase {
     dispose() {
         if(this.transform) {
             this.background.fadeTo(0,40);
-            let __bg = this.background;
+            let bg = this.background;
             this.background.setOnEndFade(function(){
-                __bg.dispose();
+                bg.dispose();
             });
         } else {
             this.background.dispose();

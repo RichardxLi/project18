@@ -69,9 +69,5 @@ class WindowBattleLog extends WindowBase {
             this.wBattleLogs.show();
             this.wBattleLogs.active = true;
         }
-
-        if(RV.System.Debug && IInput.isKeyDown(120)) {
-            IVal.scene.goto(new SceneDebug());
-        }
     };
 }

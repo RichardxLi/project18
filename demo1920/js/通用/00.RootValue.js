@@ -11,6 +11,7 @@ RV.System.Width = 1920;
 RV.System.Height = 1080;
 RV.System.Padding = 12;
 RV.System.FontSize = 24;
+RV.System.FontColor = IColor.White();
 RV.System.Debug = true;
 RV.System.Full = 0;
 

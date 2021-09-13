@@ -4,7 +4,7 @@
  */
 class WindowBattleLogs extends WindowBase {
     constructor(w) {
-        let line = 10;
+        let line = 16;
         super(0, 0, RV.System.Width, 42*line+12);
         this.maxLine = line;
         this.sButton = null;
@@ -57,15 +57,16 @@ class WindowBattleLogs extends WindowBase {
         this.start = RV.GameData.Battle.log.length-1;
         this.end = this.start - this.maxLine;
         if(this.end<0) this.end = 0;
+        this.drawContent();
     };
 
     update() {
         super.update();
-        if(this._content.visible) this.updateContent();
+        //if(this._content.visible) this.updateContent();
         if(this.active) this.updateBasic();
     };
 
-    updateContent() {
+    drawContent() {
         this.clear();
         let j = 0;
         for(let i=this.start; i>=this.end; i--) {

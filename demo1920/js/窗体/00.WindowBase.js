@@ -12,7 +12,7 @@ class WindowBase {
         this.standardPadding = RV.System.Padding;
         this.fontSize = RV.System.FontSize;
         this.active = false;
-        this.textColor = IColor.White();
+        this.textColor = RV.System.FontColor;
 
         // 背景色
         this._colorBackgroud = new IColor(0,0,0,180);
@@ -25,7 +25,7 @@ class WindowBase {
         // 无窗口模式
         this._noWindow = false;
 
-        this._currentTextColor = IColor.White();
+        this._currentTextColor = null;
         this._text = "";
     };
 
@@ -113,8 +113,10 @@ class WindowBase {
         }
         if(!this._noWindow) {
             this._window.fadeTo(1, 6);
+            this._window.visible = true;
         }
         this._viewport.fadeTo(1, 6);
+        this._viewport.visible = true;
     };
 
     close() {
@@ -122,11 +124,13 @@ class WindowBase {
         let w = this._window;
         this._window.setOnEndFade(function(){
             w.visible = false;
+            w.setOnEndFade(function(){});
         });
         let v = this._viewport;
         this._viewport.fadeTo(0, 6);
         this._viewport.setOnEndFade(function(){
             v.visible = false;
+            v.setOnEndFade(function(){});
         });
         this.active = false;
     };
@@ -148,7 +152,7 @@ class WindowBase {
     };
 
     drawTextEx(text, x, y, color=null) {
-        if(color != null) this.textColor = color;
+        this.textColor = (color != null) ? this.textColor = color : RV.System.FontColor;
         this._currentTextColor = this.textColor;
         this._text = text;
         let height = IFont.getHeight(this._text, this.fontSize)
