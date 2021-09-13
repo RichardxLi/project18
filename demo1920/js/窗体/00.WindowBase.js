@@ -27,26 +27,39 @@ class WindowBase {
 
         this._currentTextColor = null;
         this._text = "";
+        this._bgBmp = null;
     };
 
-    // 初始化
-    init(noWindow=false) {
+    /**
+     * 初始化
+     * @param bitmap 位图
+     * @param noWindow 无窗口背景
+     */
+    init(bitmap=null, noWindow=false) {
         this._noWindow = noWindow;
-        this.createWindow(noWindow);
+        this.createWindow(bitmap, noWindow);
         this.createViewport();
         this.createContent();
     };
 
-    createWindow(noWindow) {
+    createWindow(bitmap, noWindow) {
         if(this._window!=null) this._window.dispose();
-        this._window = new ISprite(this.width, this.height, this._colorBackgroud);
+        let viewport = new IViewport(0,0,this.width,this.height);
+        if(bitmap!=null){
+            this._bgBmp = bitmap;
+            this._window = new ISprite(bitmap, viewport);
+        } else {
+            bitmap = new IBitmap.CBitmap(this.width, this.height);
+            this._window = new ISprite(bitmap, viewport);
+            this._window.drawRect(new IRect(0,0,this.width,this.height), this._colorBackgroud);
+        }
+
         if(noWindow) {
             this._window.opacity = 0;
         }
     };
 
     createViewport() {
-        if(this._viewport!=null) this._viewport.dispose();
         this._viewport = new IViewport(0, 0, this.contentWidth, this.contentHeight);
     };
 
@@ -54,9 +67,9 @@ class WindowBase {
         if(this._content != null) this._content.dispose();
         let bitmap = null
         if(this.contentWidth>0 && this.contentHeight>0) {
-            bitmap = new IBitmap.CBitmap(this.contentWidth, this.contentHeight)
+            bitmap = new IBitmap.CBitmap(this.contentWidth, this.contentHeight);
         } else {
-            bitmap = new IBitmap.CBitmap(1, 1)
+            bitmap = new IBitmap.CBitmap(1, 1);
         }
         this._content = new ISprite(bitmap, this._viewport);
         this._content.z = 1;
@@ -64,7 +77,13 @@ class WindowBase {
 
     // 析构
     dispose() {
-        if(this._window != null) this._window.dispose();
+        if(this._window != null) {
+            if(this._bgBmp==null) {
+                this._window.dispose();
+            } else {
+                this._window.disposeMin();
+            }
+        }
         if(this._content != null) this._content.dispose();
     };
 
@@ -76,11 +95,13 @@ class WindowBase {
 
     updateWindow() {
         if(this._window == null) return;
+        this._window.viewport.width = this.width;
+        this._window.viewport.height = this.height;
+        this._window.viewport.x = this.x;
+        this._window.viewport.y = this.y;
+        this._window.viewport.z = this.z;
         this._window.width = this.width;
         this._window.height = this.height;
-        this._window.x = this.x;
-        this._window.y = this.y;
-        this._window.z = this.z;
     };
 
     updateViewport() {
@@ -103,9 +124,9 @@ class WindowBase {
 
     // 基础操作
     open() {
-        if(!this._window.visible) {
+        if(!this._window.viewport.visible) {
             this._window.opacity = 0;
-            this._window.visible = true;
+            this._window.viewport.visible = true;
         }
         if(!this._viewport.visible) {
             this._viewport.opacity = 0 ;
@@ -113,7 +134,6 @@ class WindowBase {
         }
         if(!this._noWindow) {
             this._window.fadeTo(1, 6);
-            this._window.visible = true;
         }
         this._viewport.fadeTo(1, 6);
         this._viewport.visible = true;
@@ -123,7 +143,7 @@ class WindowBase {
         this._window.fadeTo(0, 6);
         let w = this._window;
         this._window.setOnEndFade(function(){
-            w.visible = false;
+            w.viewport.visible = false;
             w.setOnEndFade(function(){});
         });
         let v = this._viewport;
@@ -136,13 +156,13 @@ class WindowBase {
     };
 
     hide() {
-        this._window.visible = false;
+        this._window.viewport.visible = false;
         this._viewport.visible = false;
         this.active = false;
     };
 
     show() {
-        this._window.visible = true;
+        this._window.viewport.visible = true;
         this._viewport.visible = true;
     };
 

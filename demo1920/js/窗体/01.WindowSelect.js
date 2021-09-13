@@ -16,8 +16,8 @@ class WindowSelect extends WindowBase {
     };
 
     // 初始化
-    init(noWindow=false) {
-        super.init(noWindow);
+    init(bitmap=null, noWindow=false) {
+        super.init(bitmap, noWindow);
         this.createButtons();
     };
 
@@ -36,12 +36,12 @@ class WindowSelect extends WindowBase {
     };
 
     disposeMin() {
-        super.dispose();
         for (let i=0; i<this._buttons.length;i++) {
             if(this._buttons[i]!=null) {
                 this._buttons[i].disposeMin();
             }
         }
+        super.dispose();
     }
 
     // 主循环

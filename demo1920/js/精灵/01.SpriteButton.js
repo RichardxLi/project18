@@ -14,6 +14,7 @@ class SpriteButton extends IButton {
         this.fontSize = 24;
     }
 
+    // 刷帧 -- 需手动调用
     update() {
         super.update();
     }

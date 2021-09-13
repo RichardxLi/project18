@@ -110,6 +110,9 @@ class WindowDebug extends WindowBase {
         RV.GameData.Battle.log[13] = "★ 第4回合";
         RV.GameData.Battle.log[14] = "\c3部长.豪\c0->\c4普通攻击\c0造成\c39000\c0伤害";
         RV.GameData.Battle.log[15] = "\c3杂鱼士兵\c0<-\c5苍穹弱点\c0移除";
+        for(let i=16; i<50; i++) {
+            RV.GameData.Battle.log[i] = "test"+i;
+        }
     };
 
     setTemp() {

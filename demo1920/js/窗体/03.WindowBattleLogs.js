@@ -9,70 +9,51 @@ class WindowBattleLogs extends WindowBase {
         this.maxLine = line;
         this.sButton = null;
         this._wBattleLog = w;
+        this.sScrollbar = null;
         this.start = 0;
         this.end = 0;
     };
 
     init() {
-        this.createWindow();
-        this.createViewport();
+        super.init(RF.LoadCache("Window/battle_logs_bg.png"));
         this.createSprite();
-        this.createContent();
         this.z = 5000;
         this.hide();
     };
 
-    createWindow() {
-        let bitmap = RF.LoadCache("Window/battle_logs_bg.png");
-        this._window = new ISprite(bitmap);
-    };
-
     createSprite() {
         let bitmap = RF.LoadCache("Window/battle_log_up.png");
-        this.sButton = new ISprite(bitmap, this._viewport);
-        this.sButton.x = this.contentWidth - this.sButton.width;
-        this.sButton.z = 2;
-    };
-
-    createContent() {
-        let bitmap = new IBitmap.CBitmap(
-            this.contentWidth - this.standardPadding - this.sButton.width,
-            this.contentHeight);
-        this._content = new ISprite(bitmap, this._viewport);
-        this._content.z = 1;
+        this.sButton = new ISprite(bitmap, this._window.viewport);
+        this.sScrollbar = new SpriteScrollbar(0, 0, this._window.viewport);
     };
 
     dispose() {
-        if(this._window!=null) this._window.disposeMin();
-        if(this._content!=null) this._content.dispose();
         if(this.sButton!=null) this.sButton.disposeMin();
-    };
-
-    show() {
-        super.show();
-        if(RV.GameData.Battle.log.length == 0) {
-            this.start = -1;
-            this.end = -1;
-        }
-        this.start = RV.GameData.Battle.log.length-1;
-        this.end = this.start - this.maxLine;
-        if(this.end<0) this.end = 0;
-        this.drawContent();
+        this.sScrollbar.dispose();
+        super.dispose();
     };
 
     update() {
         super.update();
-        //if(this._content.visible) this.updateContent();
+        if(this._content.visible) this.updateContent();
         if(this.active) this.updateBasic();
     };
 
-    drawContent() {
-        this.clear();
-        let j = 0;
-        for(let i=this.start; i>=this.end; i--) {
-            let text = RV.GameData.Battle.log[i];
-            this.drawTextEx(text, 0, 42*j);
-            j++;
+    updateContent() {
+        this.sButton.x = this.width - this.standardPadding - this.sButton.width;
+        this.sButton.y = this._viewport.y
+        this.sButton.z = this.z + 10;
+
+        this.sScrollbar.x = this.sButton.x;
+        this.sScrollbar.y = this.sButton.y + this.sButton.height + 10;
+        this.sScrollbar.z = this.z + 10;
+
+        this.sScrollbar.update();
+        let maxHeight = this._content.height;
+        if(maxHeight > this._viewport.height) {
+            this._viewport.oy = -(this.sScrollbar.progress * (maxHeight - this._viewport.height));
+        } else {
+            this._viewport.oy = -(this.sScrollbar.progress * 10);
         }
     };
 
@@ -82,6 +63,33 @@ class WindowBattleLogs extends WindowBase {
             this.hide();
             this._wBattleLog.show();
             this._wBattleLog.active = true;
+        }
+    };
+
+    show() {
+        super.show();
+        if(RV.GameData.Battle.log.length == 0) {
+            this.start = -1;
+            this.end = -1;
+        }
+        this.start = RV.GameData.Battle.log.length-1;
+        this.end = 0;
+        if(this.start-this.end > this.maxLine) this.sScrollbar.visible = true;
+        this.drawContent();
+    };
+
+    drawContent() {
+        if(this.start==-1 || this.end==-1) return;
+        let height = (this.start+1)*42;
+        let bitmap = new IBitmap.CBitmap(this.contentWidth, height);
+        this._content.disposeBitmap();
+        this._content.setBitmap(bitmap);
+
+        let j = 0;
+        for(let i=this.start; i>=this.end; i--) {
+            let text = RV.GameData.Battle.log[i];
+            this.drawTextEx(text, 0, 42*j);
+            j++;
         }
     };
 }

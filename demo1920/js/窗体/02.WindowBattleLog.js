@@ -11,17 +11,10 @@ class WindowBattleLog extends WindowBase {
     };
 
     init() {
-        this.createWindow();
-        this.createViewport();
+        super.init(RF.LoadCache("Window/battle_log_bg.png"));
         this.createSprite();
-        this.createContent();
         this.z = 5000;
         this.wBattleLogs.init();
-    };
-
-    createWindow() {
-        let bitmap = RF.LoadCache("Window/battle_log_bg.png");
-        this._window = new ISprite(bitmap);
     };
 
     createSprite() {
@@ -31,18 +24,9 @@ class WindowBattleLog extends WindowBase {
         this.sButton.z = 2;
     };
 
-    createContent() {
-        let bitmap = new IBitmap.CBitmap(
-            this.contentWidth - this.standardPadding - this.sButton.width,
-            this.contentHeight);
-        this._content = new ISprite(bitmap, this._viewport);
-        this._content.z = 1;
-    };
-
     dispose() {
-        if(this._window!=null) this._window.disposeMin();
-        if(this._content!=null) this._content.dispose();
         if(this.sButton!=null) this.sButton.disposeMin();
+        super.dispose();
     };
 
     update() {
