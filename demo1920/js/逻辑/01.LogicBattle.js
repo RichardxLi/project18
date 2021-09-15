@@ -3,9 +3,10 @@
  * 封装运算单元，管理战斗流程
  */
 class LogicBattle {
-    // 战斗场景 数据设置
-    setup() {
-
+    // 数据设置
+    setup(id) {
+        RV.GameData.enemyId = id;
+        RV.GameData.Battle.reset();
     }
 
     // 开始战斗 启动状态机

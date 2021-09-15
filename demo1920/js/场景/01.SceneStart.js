@@ -71,8 +71,7 @@ class SceneStart extends SceneBase {
         RV.GameData.Set = new GameSet();
         RV.GameData.Set.load();
         RV.GameData.Temp = new GameTemp();
-        RV.GameData.Temp.reset();
         RV.GameData.Battle = new GameBattle();
-        RV.GameData.Battle.reset();
+        RV.GameData.Player = new GamePlayer();
     }
 }

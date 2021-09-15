@@ -1,5 +1,5 @@
 /** 
- * 数据库-样例
+ * 数据库 -- 样例
  */
 class DataObject {
     constructor() {

@@ -3,6 +3,9 @@
  * 状态机过程中数据，无需持久化
  */
 class GameTemp {
+    constructor() {
+        this.enemyId = 0; // 当前敌人编号
+    }
 
     reset() {
 

@@ -3,6 +3,17 @@
  * 处理战斗场景，我方单位数据
  * 作为GameParty的内部使用
  */
-class GameBattleParty {
+class GameBattleActor {
+    constructor(actor) {
+        this.actor = actor;
+        this.hp = actor.hp;
+        this.at = actor.at;
+        this.element = actor.element;
+        this.skill1 = actor.skill(0);
+        this.skill2 = actor.skill(1);
+        this.skillEx = actor.skillEx;
 
+        this.stun = false;
+        this.boost = false;
+    }
 }

@@ -4,8 +4,7 @@
  */
 class GameObject {
     constructor(dataId) {
-        // 绑定数据库
-        this.dataId = dataId;
+        this.dataId = dataId; // 绑定数据库
         this.index = 0; // 运行时刻索引
         this.picture = this.data.picture; // 图片
         this.moveX = 0; // 横向移动

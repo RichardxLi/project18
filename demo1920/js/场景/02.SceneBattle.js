@@ -6,11 +6,13 @@ class SceneBattle extends SceneBase {
         super();
         this.wLog = new WindowBattleLog();
         this.wDebug = new WindowDebug();
+        this.logic = new LogicBattle();
     };
 
     init() {
         super.init();
         this.initWindow();
+        this.logic.setup(RV.GameData.Temp.enemyId);
         return true;
     };
 

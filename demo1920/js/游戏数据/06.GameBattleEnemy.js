@@ -4,5 +4,10 @@
  * 作为GameParty的内部使用
  */
 class GameBattleEnemy {
+    constructor() {
+    }
 
+    setup(id) {
+
+    }
 }

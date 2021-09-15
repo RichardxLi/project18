@@ -1,6 +1,6 @@
 /**
- * 数据库-项目设置
- * 架构基于AVG框架
+ * 数据库 -- 项目设置
+ * 基于AVG框架
  */
 class DataSet {
     constructor() {

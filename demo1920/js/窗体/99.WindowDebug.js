@@ -94,6 +94,18 @@ class WindowDebug extends WindowBase {
 
     // -----------------------
     initGameBattle() {
+        for(let i=1; i<=3; i++) {
+            let actor = new GameActor(1);
+            actor.init();
+            RV.GameData.Player.addMember(actor);
+        }
+    };
+
+    setTemp() {
+        this.setTemp1();
+    };
+
+    setTemp1() {
         RV.GameData.Battle.log[0] = "★ 第1回合";
         RV.GameData.Battle.log[1] = "\c3部长.豪\c0->\c4送终刀锋";
         RV.GameData.Battle.log[2] = "★ 第2回合";
@@ -115,14 +127,5 @@ class WindowDebug extends WindowBase {
         RV.GameData.Battle.log[18] = "★ 第6回合";
         RV.GameData.Battle.log[19] = "★ 第7回合";
         RV.GameData.Battle.log[20] = "★ 第8回合";
-
-    };
-
-    setTemp() {
-        this.setTemp1();
-    };
-
-    setTemp1() {
-
     };
 }
