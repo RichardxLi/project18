@@ -51,7 +51,7 @@ class SceneBase {
     init() {
         // 设置背景
         this.background = new ISprite(IVal.GWidth, IVal.GHeight, IColor.White());
-        this.background.z = 1000;
+        this.background.z = 100;
         return true;
     }
 

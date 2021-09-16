@@ -5,6 +5,8 @@
 class GameTemp {
     constructor() {
         this.enemyId = 0; // 当前敌人编号
+        this.selectSkillIndex = 0; // 选中技能
+        this.selectBattlerIndex = 0; // 选中主战者
     }
 
     reset() {

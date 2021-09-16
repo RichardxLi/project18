@@ -9,7 +9,7 @@ class LogicBattle {
         RV.GameData.Battle.reset();
     }
 
-    // 开始战斗 启动状态机
+    // 战斗开始 启动状态机
     start() {
 
     }

@@ -10,9 +10,9 @@ class SpriteScrollbar {
         this.y = y;
         this.z = 1;
         this._viewport = viewport;
-        this._backgroundBmp = RF.LoadCache("System/bar-scroll_0.png");
+        this._backBmp = RF.LoadCache("System/bar-scroll_0.png");
         this._buttonBmp = RF.LoadCache("System/bar-scroll_1.png");
-        this._background = new ISprite(this._backgroundBmp, viewport);
+        this._back = new ISprite(this._backBmp, viewport);
         this._button = new ISprite(this._buttonBmp, viewport);
         this.padding = 10;
         this.visible = false;
@@ -23,7 +23,7 @@ class SpriteScrollbar {
     }
 
     dispose() {
-        this._background.disposeMin();
+        this._back.disposeMin();
         this._button.disposeMin();
     }
 
@@ -45,22 +45,22 @@ class SpriteScrollbar {
     }
 
     updateVisible() {
-        this._background.visible = this.visible;
+        this._back.visible = this.visible;
         this._button.visible = this.visible;
     }
 
     updatePosition() {
-        this._background.x = this.x;
-        this._background.y = this.y;
-        this._background.z = this.z;
+        this._back.x = this.x;
+        this._back.y = this.y;
+        this._back.z = this.z;
         this._button.x = this.x+4;
         this._button.y = this.y+this.padding+this.offset;
         this._button.z = this.z+1;
     }
 
     updateOffset() {
-        let startY = this._background.y + this.padding;
-        let endY = this._background.y + this._background.height - this.padding - this._button.height;
+        let startY = this._back.y + this.padding;
+        let endY = this._back.y + this._back.height - this.padding - this._button.height;
         let max = endY - startY;
 
         let mouseMove = IInput.y - this._inputdy;

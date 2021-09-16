@@ -7,12 +7,14 @@ class SceneBattle extends SceneBase {
         this.wLog = new WindowBattleLog();
         this.wDebug = new WindowDebug();
         this.logic = new LogicBattle();
+        this.spriteset = new SpritesetBattle();
     };
 
     init() {
         super.init();
         this.initWindow();
         this.logic.setup(RV.GameData.Temp.enemyId);
+        this.spriteset.init();
         return true;
     };
 
@@ -23,6 +25,7 @@ class SceneBattle extends SceneBase {
     };
 
     dispose() {
+        this.spriteset.dispose();
         this.wLog.dispose();
         this.wDebug.dispose();
         super.dispose();
@@ -45,5 +48,6 @@ class SceneBattle extends SceneBase {
         }
 
         this.wLog.update();
+        this.spriteset.update();
     };
 }

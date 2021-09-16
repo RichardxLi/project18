@@ -4,7 +4,7 @@
  */
 class GameActor {
     constructor(classId) {
-        this.id = 0;
+        this.id = 0; // 唯一识别号 玩家获取时分配
         this.classId = classId;
         this.name = this.class.name;
         this.face = this.class.face;

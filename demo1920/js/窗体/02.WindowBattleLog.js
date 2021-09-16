@@ -26,6 +26,7 @@ class WindowBattleLog extends WindowBase {
 
     dispose() {
         if(this.sButton!=null) this.sButton.disposeMin();
+        this.wBattleLogs.dispose();
         super.dispose();
     };
 

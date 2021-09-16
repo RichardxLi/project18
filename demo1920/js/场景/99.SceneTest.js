@@ -16,23 +16,23 @@ class SceneTest extends SceneBase {
         super.init();
         this.sprite = new ISprite(80,30,IColor.Red());
         this.sprite.drawTextQ("Test1",10,10,IColor.Blue(),18);
-        this.sprite.z = 1001;
+        this.sprite.z = 101;
 
         this.sprite2 = new ISprite(80,30,IColor.Red());
         this.sprite2.drawTextQ("Test2",10,10,IColor.Blue(),18);
         this.sprite2.x = 100;
-        this.sprite2.z = 1001;
+        this.sprite2.z = 101;
 
         this.sprite3 = new ISprite(80,30,IColor.Red());
         this.sprite3.drawTextQ("Debug",10,10,IColor.Blue(),18);
         this.sprite3.x = 200;
-        this.sprite3.z = 1001;
+        this.sprite3.z = 101;
 
         // 测试-基础精灵
         this.sObject = new SpriteObject(this.background.viewport, this.object);
         this.sObject.x = 100;
         this.sObject.y = 100;
-        this.sObject.z = 1001;
+        this.sObject.z = 101;
 
         // 测试-动画精灵
         let rect = new IRect(500, 0, 600, 140);
@@ -40,7 +40,7 @@ class SceneTest extends SceneBase {
 
         // 测试-基础窗体
         this.window = new WindowBase(0, 200, 400, 100);
-        this.window.z = 2000;
+        this.window.z = 200;
         this.window.init();
 
         // 测试-选项窗体

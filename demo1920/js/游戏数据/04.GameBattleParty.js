@@ -5,6 +5,7 @@
  */
 class GameBattleParty {
     constructor() {
+        this.name = "";
         this.maxLp = 0;
         this.lp = 0;
         this.pt = 0;
@@ -17,6 +18,7 @@ class GameBattleParty {
 
     setup() {
         let gamePlayer = RV.GameData.Player;
+        this.name = gamePlayer.partyName
         this.pt = 0
         this.buff = [];
         this.debuff = [];
@@ -26,8 +28,7 @@ class GameBattleParty {
             let actor = new GameBattleActor(gamePlayer.battler(i));
             this.battlers.push(actor);
         }
-        let actor = new GameBattleActor(gamePlayer.supporter());
-        this.supporter = actor;
+        this.supporter = new GameBattleActor(gamePlayer.supporter());
     }
 
     // 命中
@@ -88,5 +89,18 @@ class GameBattleParty {
     eDefPlus(elementId) {
         // 状态 - 元素抵抗
         return 0;
+    }
+
+    // 换人
+    exchange(index) {
+        let t = this.battlers[index];
+        this.battlers[index] = this.supporter;
+        this.supporter = t;
+    }
+
+    // 伤害
+    damage(n) {
+        this.lp -= n;
+        if(this.lp<0) this.lp = 0;
     }
 }

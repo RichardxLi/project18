@@ -8,6 +8,7 @@ class GamePlayer {
         this._supporterId = 0;
         this._reserverIds = [];
 
+        this.partyName = "玩家队伍";
         this.damage = 0; // 当前承受伤害
         this.level = 1; // 难度等级
         this.battlerNum = 3; // 主战者数量
@@ -88,7 +89,7 @@ class GamePlayer {
 
     get maxLp() {
         let maxLp = 0;
-        for(let i=0; i<this._battlerIds; i++) {
+        for(let i=0; i<this._battlerIds.length; i++) {
             maxLp += this.battler(i).hp;
         }
         maxLp += this.supporter().hp;
