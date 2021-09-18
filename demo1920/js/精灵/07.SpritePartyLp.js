@@ -1,13 +1,12 @@
 /**
  * 精灵 -- 队伍耐久
- * SpritesetBattler内部使用
+ * SpritesetBattle内部使用
  */
 class SpritePartyLp {
     constructor(x, y, viewport) {
         this.fontSize = 34;
         this.x = x;
         this.y = y;
-        this.z = 10;
 
         this._backBmp = RF.LoadCache("System/party-lp_0.png");
         this._back = new ISprite(this._backBmp, viewport);

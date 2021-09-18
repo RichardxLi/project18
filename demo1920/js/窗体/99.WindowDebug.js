@@ -139,5 +139,6 @@ class WindowDebug extends WindowBase {
     temp2() {
         RV.GameData.Battle.party.damage(200);
         RV.GameData.Battle.enemy.damage(200);
+        RV.GameData.Battle.turn += 1;
     }
 }

@@ -1,6 +1,6 @@
 /**
  * 精灵 -- 敌人耐久
- * SpritesetBattler内部使用
+ * SpritesetBattle内部使用
  */
 class SpriteEnemyLp {
     constructor(x, y, viewport) {

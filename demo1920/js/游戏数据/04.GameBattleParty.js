@@ -9,6 +9,7 @@ class GameBattleParty {
         this.maxLp = 0;
         this.lp = 0;
         this.pt = 0;
+        this.maxPt = 0;
         this.battlers = [];
         this.supporter = null;
 
@@ -19,7 +20,8 @@ class GameBattleParty {
     setup() {
         let gamePlayer = RV.GameData.Player;
         this.name = gamePlayer.partyName
-        this.pt = 0
+        this.pt = 0;
+        this.maxPt = 5;
         this.buff = [];
         this.debuff = [];
         this.maxLp = gamePlayer.maxLp;
