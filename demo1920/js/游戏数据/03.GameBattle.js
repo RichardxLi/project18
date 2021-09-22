@@ -13,7 +13,7 @@ class GameBattle {
         this.isAnim = false; // 动画播放中
     }
 
-    reset() {
+    init() {
         this.turn = 0;
         this.log = [];
         this.party.setup();

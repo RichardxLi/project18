@@ -54,3 +54,16 @@ RD.Class = function(id) {
     }
     return RD._class[id];
 };
+
+// DataSkill
+RD._class = null;
+RD.LoadSkill = function() {
+    // 缺省
+    RD._skill = _DataSkill;
+};
+RD.Skill = function(id) {
+    if(RD._skill[id] == null) {
+        return RD._skill[0];
+    }
+    return RD._skill[id];
+};

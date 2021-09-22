@@ -6,6 +6,7 @@
 class GameBattleActor {
     constructor(actor) {
         this.actor = actor;
+        this.level = actor.level;
         this.hp = actor.hp;
         this.at = actor.at;
         this.element = actor.element;

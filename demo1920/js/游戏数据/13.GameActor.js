@@ -24,6 +24,9 @@ class GameActor {
             this.abilitys[1] = this.class.randAbility[i];
         }
         // 设置技能
+        for(let i=0; i<this.class.skills.length; i++) {
+            this.skill[i] = new GameSkill(this.class.skills[i]);
+        }
     }
 
     get class() {
@@ -34,11 +37,11 @@ class GameActor {
         return RD.Element(this.class.element);
     }
 
-    get baseHp() {
+    get hpBase() {
         return parseInt(this.class.hp * this.rate);
     }
 
-    get baseAt() {
+    get atBase() {
         return parseInt(this.class.at * this.rate);
     }
 
@@ -54,12 +57,12 @@ class GameActor {
 
     get hp() {
         let partyPlus = RV.GameData.Player.lpPlus;
-        return parseInt(this.baseHp * (100 + this.hpPlus + partyPlus) / 100);
+        return parseInt(this.hpBase * (100 + this.hpPlus + partyPlus) / 100);
     }
 
     get at() {
         let partyPlus = RV.GameData.Player.atPlus;
-        return parseInt(this.baseAt * (100 + this.atPlus + partyPlus) / 100);
+        return parseInt(this.atBase * (100 + this.atPlus + partyPlus) / 100);
     }
 
     get skillEx() {
@@ -75,8 +78,15 @@ class GameActor {
         return maxs[this.level];
     }
 
+    // 基础数值倍率
     get rate() {
         let rates = [1, 1, 1.5, 2.25, 4, 7.7];
         return rates[this.level];
+    }
+
+    // 元素感染率
+    get eRateBase() {
+        let eRates = [0, 15, 20, 25, 30, 40];
+        return eRates[this.level];
     }
 }

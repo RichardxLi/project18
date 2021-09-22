@@ -6,7 +6,7 @@ class LogicBattle {
     // 数据设置
     setup(id) {
         RV.GameData.enemyId = id;
-        RV.GameData.Battle.reset();
+        RV.GameData.Battle.init();
     }
 
     // 战斗开始 启动状态机
