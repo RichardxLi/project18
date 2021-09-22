@@ -12,6 +12,7 @@ class GameBattleParty {
         this.maxPt = 0;
         this.battlers = [];
         this.supporter = null;
+        this.combo = 0;
 
         this.buff = [];
         this.debuff = [];

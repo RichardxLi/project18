@@ -13,6 +13,7 @@ class GameActor {
         this.exp = 0;
         this.level = 0;
         this.abilitys = [this.class.ability, 0, 0, 0];
+        this.skill = [];
     }
 
     init(id) {
@@ -22,6 +23,7 @@ class GameActor {
             let i = rand(0, this.class.randAbility.length);
             this.abilitys[1] = this.class.randAbility[i];
         }
+        // 设置技能
     }
 
     get class() {
@@ -60,12 +62,8 @@ class GameActor {
         return parseInt(this.baseAt * (100 + this.atPlus + partyPlus) / 100);
     }
 
-    skill(i) {
-        return null;
-    }
-
     get skillEx() {
-        return this.skill(2);
+        return this.skill[0];
     }
 
     ability(i) {
