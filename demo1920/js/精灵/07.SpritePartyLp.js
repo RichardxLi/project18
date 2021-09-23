@@ -24,6 +24,8 @@ class SpritePartyLp {
 
         this.animFrame = 12; // 动画持续帧数
         this._nowFrame = 0; // 当前播放帧数
+
+        this.updatePosition();
     }
 
     dispose() {
@@ -34,7 +36,7 @@ class SpritePartyLp {
     }
 
     update() {
-        this.updatePosition();
+        //this.updatePosition();
         // 伤害动画
         if(this._frontBCof.width != this.frontWidth) {
             this.damaging();
@@ -52,12 +54,13 @@ class SpritePartyLp {
 
     drawText() {
         this._text.clearBitmap();
-        this._text.drawTextQ(this.data.name, 10, 0, IColor.Black(), this.fontSize);
-        let height = IFont.getHeight(this.data.name, this.fontSize)
-        this._text.drawTextQ(this.data.lp, 30, height, IColor.Black(), this.fontSize);
+        this._text.drawTextQ(this.gameParty.name, 10, 0, IColor.Black(), this.fontSize);
+        let height = IFont.getHeight(this.gameParty.name, this.fontSize)
+        this._text.drawTextQ(this.gameParty.lp, 30, height, IColor.Black(), this.fontSize);
     }
 
     damaging() {
+        RV.GameData.Temp.waitingAnim = true;
         let remain = this.frontWidth - this._frontBCof.width;
         let remainFrame = this.animFrame - this._nowFrame;
         let frameDiff = remain / remainFrame;
@@ -67,14 +70,15 @@ class SpritePartyLp {
             this._frontBCof.width = this.frontWidth;
             this._nowFrame = 0;
             this.drawText();
+            RV.GameData.Temp.waitingAnim = false;
         }
     }
 
-    get data() {
+    get gameParty() {
         return RV.GameData.Battle.party;
     }
 
     get frontWidth() {
-        return parseInt(this._front.width * this.data.lp / this.data.maxLp);
+        return parseInt(this._front.width * this.gameParty.lp / this.gameParty.maxLp);
     }
 }

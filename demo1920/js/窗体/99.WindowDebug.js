@@ -113,32 +113,37 @@ class WindowDebug extends WindowBase {
     };
 
     temp1() {
-        RV.GameData.Battle.log[0] = "★ 第1回合";
-        RV.GameData.Battle.log[1] = "\c3部长.豪\c0->\c4送终刀锋";
-        RV.GameData.Battle.log[2] = "★ 第2回合";
-        RV.GameData.Battle.log[3] = "\c3主任.杰\c0->\c4普通攻击";
-        RV.GameData.Battle.log[4] = "★ 第3回合";
-        RV.GameData.Battle.log[5] = "\c3主任.杰\c0->\c4自动攻击\c0造成\c35000\c0伤害";
-        RV.GameData.Battle.log[6] = "\c3部长.豪\c0->\c4送终刀锋\c0造成\c310000\c0伤害";
-        RV.GameData.Battle.log[7] = "\c3杂鱼士兵\c0<-\c5破甲II\c0持续\c31\c0回合";
-        RV.GameData.Battle.log[8] = "\c3主任.杰\c0->\c4普通攻击\c0造成\c37500\c0伤害";
-        RV.GameData.Battle.log[9] = "\c3杂鱼士兵\c0->\c4蓄力攻击\c0造成\c31000\c0伤害";
-        RV.GameData.Battle.log[10] = "\c3杂鱼士兵\c0<-\c5破甲II\c0移除";
-        RV.GameData.Battle.log[11] = "\c3杂鱼士兵\c0<-\c5苍穹弱点\c0持续\c31\c0回合";
-        RV.GameData.Battle.log[12] = "\c3部长.豪\c0->\c4普通攻击";
-        RV.GameData.Battle.log[13] = "★ 第4回合";
-        RV.GameData.Battle.log[14] = "\c3部长.豪\c0->\c4普通攻击\c0造成\c39000\c0伤害";
-        RV.GameData.Battle.log[15] = "\c3杂鱼士兵\c0<-\c5苍穹弱点\c0移除";
-        RV.GameData.Battle.log[16] = "\c3杂鱼士兵\c0->\c5普通攻击\c0造成\c3500\c0伤害";
-        RV.GameData.Battle.log[17] = "★ 第5回合";
-        RV.GameData.Battle.log[18] = "★ 第6回合";
-        RV.GameData.Battle.log[19] = "★ 第7回合";
-        RV.GameData.Battle.log[20] = "★ 第8回合";
+        let gameBattle = RV.GameData.Battle;
+        gameBattle.log[0] = "★ 第1回合";
+        gameBattle.log[1] = "\c3部长.豪\c0->\c4送终刀锋";
+        gameBattle.log[2] = "★ 第2回合";
+        gameBattle.log[3] = "\c3主任.杰\c0->\c4普通攻击";
+        gameBattle.log[4] = "★ 第3回合";
+        gameBattle.log[5] = "\c3主任.杰\c0->\c4自动攻击\c0造成\c35000\c0伤害";
+        gameBattle.log[6] = "\c3部长.豪\c0->\c4送终刀锋\c0造成\c310000\c0伤害";
+        gameBattle.log[7] = "\c3杂鱼士兵\c0<-\c5破甲II\c0持续\c31\c0回合";
+        gameBattle.log[8] = "\c3主任.杰\c0->\c4普通攻击\c0造成\c37500\c0伤害";
+        gameBattle.log[9] = "\c3杂鱼士兵\c0->\c4蓄力攻击\c0造成\c31000\c0伤害";
+        gameBattle.log[10] = "\c3杂鱼士兵\c0<-\c5破甲II\c0移除";
+        gameBattle.log[11] = "\c3杂鱼士兵\c0<-\c5苍穹弱点\c0持续\c31\c0回合";
+        gameBattle.log[12] = "\c3部长.豪\c0->\c4普通攻击";
+        gameBattle.log[13] = "★ 第4回合";
+        gameBattle.log[14] = "\c3部长.豪\c0->\c4普通攻击\c0造成\c39000\c0伤害";
+        gameBattle.log[15] = "\c3杂鱼士兵\c0<-\c5苍穹弱点\c0移除";
+        gameBattle.log[16] = "\c3杂鱼士兵\c0->\c5普通攻击\c0造成\c3500\c0伤害";
+        gameBattle.log[17] = "★ 第5回合";
+        gameBattle.log[18] = "★ 第6回合";
+        gameBattle.log[19] = "★ 第7回合";
+        gameBattle.log[20] = "★ 第8回合";
     };
 
     temp2() {
-        RV.GameData.Battle.party.damage(200);
-        RV.GameData.Battle.enemy.damage(200);
-        RV.GameData.Battle.turn += 1;
+        let gameBattle = RV.GameData.Battle;
+        let gameParty = gameBattle.party;
+        let gameEnemy = gameBattle.enemy;
+        gameParty.damage(200);
+        gameEnemy.damage(200);
+        gameBattle.turn += 1;
+        gameParty.pt += 1;
     }
 }

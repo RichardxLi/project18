@@ -27,8 +27,9 @@ class SpriteEnemyLp {
 
         this.animFrame = 12; // 动画持续帧数
         this._nowFrame = 0; // 当前播放帧数
-
         this._frontBCofX = 0; // 由于this._frontBCof.x有bug，独立存储cofx
+
+        this.updatePosition();
     }
 
     dispose() {
@@ -39,7 +40,7 @@ class SpriteEnemyLp {
     }
 
     update() {
-        this.updatePosition();
+        //this.updatePosition();
         // 伤害动画
         if(this._frontBCofX != this.frontX) {
             this.damaging();
@@ -57,14 +58,15 @@ class SpriteEnemyLp {
 
     drawText() {
         this._text.clearBitmap();
-        let x = this._text.width - IFont.getWidth(this.data.name, this.fontSize);
-        this._text.drawTextQ(this.data.name, x - 10, 0, IColor.Black(), this.fontSize);
-        x = this._text.width - IFont.getWidth(this.data.lp, this.fontSize);
-        let height = IFont.getHeight(this.data.name, this.fontSize)
-        this._text.drawTextQ(this.data.lp, x - 30, height, IColor.Black(), this.fontSize);
+        let x = this._text.width - IFont.getWidth(this.gameEnemy.name, this.fontSize);
+        this._text.drawTextQ(this.gameEnemy.name, x - 10, 0, IColor.Black(), this.fontSize);
+        x = this._text.width - IFont.getWidth(this.gameEnemy.lp, this.fontSize);
+        let height = IFont.getHeight(this.gameEnemy.name, this.fontSize)
+        this._text.drawTextQ(this.gameEnemy.lp, x - 30, height, IColor.Black(), this.fontSize);
     }
 
     damaging() {
+        RV.GameData.Temp.waitingAnim = true;
         let remain = this.frontX - this._frontBCofX;
         let remainFrame = this.animFrame - this._nowFrame;
         let frameDiff = remain / remainFrame;
@@ -78,14 +80,15 @@ class SpriteEnemyLp {
             this._frontBCof.width = this._front.width - this._frontBCofX;
             this._nowFrame = 0;
             this.drawText();
+            RV.GameData.Temp.waitingAnim = false;
         }
     }
 
-    get data() {
+    get gameEnemy() {
         return RV.GameData.Battle.enemy;
     }
 
     get frontX() {
-        return parseInt(this._front.width * (1 - this.data.lp / this.data.maxLp));
+        return parseInt(this._front.width * (1 - this.gameEnemy.lp / this.gameEnemy.maxLp));
     }
 }

@@ -10,12 +10,12 @@ class GameBattleParty {
         this.lp = 0;
         this.pt = 0;
         this.maxPt = 0;
-        this.battlers = [];
+        this.battlers = []; // <GameBattleActor>
         this.supporter = null;
         this.combo = 0;
 
-        this.buff = [];
-        this.debuff = [];
+        this.buffs = []; // <GameBuff>
+        this.debuffs = []; // <GameDebuff>
     }
 
     setup() {
@@ -23,10 +23,11 @@ class GameBattleParty {
         this.name = gamePlayer.partyName
         this.pt = 0;
         this.maxPt = 5;
-        this.buff = [];
-        this.debuff = [];
+        this.buffs = [];
+        this.debuffs = [];
         this.maxLp = gamePlayer.maxLp;
         this.lp = gamePlayer.lp;
+        this.battlers = [];
         for(let i=0; i<gamePlayer.battlerNum; i++) {
             let actor = new GameBattleActor(gamePlayer.battler(i));
             this.battlers.push(actor);

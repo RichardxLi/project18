@@ -23,6 +23,8 @@ class SpriteTurnInfo {
         this._pt = new ISprite(this._ptBmp, viewport);
         this._pt.yx = 0.5;
         this._pt.z = 202;
+
+        this.updatePosition();
     }
 
     dispose() {
@@ -32,7 +34,7 @@ class SpriteTurnInfo {
     }
 
     update() {
-        this.updatePosition();
+        //this.updatePosition();
         this.drawText();
     }
 
@@ -47,12 +49,16 @@ class SpriteTurnInfo {
 
     drawText() {
         this._text.clearBitmap();
-        this._text.drawTextQ("回合"+this.data.turn, 2*RV.System.Padding, RV.System.Padding, IColor.Black(), this.fontSize);
+        this._text.drawTextQ("回合"+this.gameBattle.turn, 2*RV.System.Padding, RV.System.Padding, IColor.Black(), this.fontSize);
         this._pt.clearBitmap();
-        this._pt.drawTextQ("PT-"+this.data.party.pt+" todo:换成图片", 100, 0, IColor.Black(), this.fontSize);
+        this._pt.drawTextQ("PT-"+this.gameParty.pt+" todo:换成图片", 100, 0, IColor.Black(), this.fontSize);
     }
 
-    get data() {
+    get gameBattle() {
         return RV.GameData.Battle;
+    }
+
+    get gameParty() {
+        return this.gameBattle.party;
     }
 }

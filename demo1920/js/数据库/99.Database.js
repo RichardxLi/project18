@@ -10,20 +10,20 @@ let _DataObject = [
 
 let _DataElement = [
     new DataElement(),
-    {id:1, name:"疾风", icon:"", special:false},
-    {id:2, name:"徐林", icon:"", special:false},
-    {id:3, name:"烈火", icon:"", special:false},
-    {id:4, name:"岿山", icon:"", special:false},
-    {id:5, name:"虚无", icon:"", special:true},
+    {id:1, name:"疾风", icon:"rui.png", special:false},
+    {id:2, name:"徐林", icon:"rui.png", special:false},
+    {id:3, name:"烈火", icon:"rui.png", special:false},
+    {id:4, name:"岿山", icon:"rui.png", special:false},
+    {id:5, name:"虚无", icon:"rui.png", special:true},
 ];
 
 // 职业
 let _DataClass = [
     new DataClass(),
-    {id:1, name:"青帝", face:"", picture:"", hp:150, at:150, element:1, skills:[1,11,12], ability:0, randAbility:[]},
-    {id:2, name:"道哥", face:"", picture:"", hp:100, at:100, element:2, skills:[1,13,14], ability:0, randAbility:[]},
-    {id:3, name:"京豪", face:"", picture:"", hp:100, at:200, element:3, skills:[1,15,16], ability:0, randAbility:[]},
-    {id:4, name:"姨妈", face:"", picture:"", hp:250, at:100, element:4, skills:[1,17,18], ability:0, randAbility:[]},
+    {id:1, name:"姨妈", face:"", picture:"yima.png", hp:150, at:150, element:1, skills:[1,11,12], ability:0, randAbility:[]},
+    {id:2, name:"道哥", face:"", picture:"daoge.png", hp:100, at:100, element:2, skills:[1,13,14], ability:0, randAbility:[]},
+    {id:3, name:"京豪", face:"", picture:"jinghao.png", hp:100, at:200, element:3, skills:[1,15,16], ability:0, randAbility:[]},
+    {id:4, name:"青帝", face:"", picture:"", hp:250, at:100, element:4, skills:[1,17,18], ability:0, randAbility:[]},
     {id:5, name:"响爷", face:"", picture:"", hp:250, at:250, element:5, skills:[2,19,20], ability:0, randAbility:[]},
 ];
 

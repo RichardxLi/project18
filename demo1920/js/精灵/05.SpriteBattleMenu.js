@@ -7,43 +7,52 @@ class SpriteBattleMenu {
         this.x = x;
         this.y = y;
 
-        this.button1 = new SpriteButton("换人", viewport);
-        this.button1.z = 100;
-        this.button2 = new SpriteButton("重开", viewport);
-        this.button2.z = 100;
-        this.button3 = new SpriteButton("菜单", viewport);
-        this.button3.z = 100;
+        this.buttons = [];
+        let txt = ["换人", "重开", "帮助", "菜单"];
+        for(let i=0; i<txt.length; i++) {
+            this.buttons[i] = new SpriteButton(txt[i], viewport);
+            this.buttons[i].z = 100;
+        }
+
+        this.updatePosition();
     }
 
     dispose() {
-        this.button1.disposeMin();
-        this.button2.disposeMin();
-        this.button3.disposeMin();
+        for(let i=0; i<this.buttons.length; i++) {
+            this.buttons[i].disposeMin();
+        }
     }
 
     update() {
-        this.updatePosition();
-        this.button1.updateBase();
-        this.button2.updateBase();
-        this.button3.updateBase();
+        //this.updatePosition();
+        for(let i=0; i<this.buttons.length; i++) {
+            this.buttons[i].updateBase();
+        }
 
-        if(this.data.processing || RV.GameData.Temp.waitingAnim) return;
+        if(this.gameBattle.processing || this.gameTemp.waitingAnim) return;
 
-        this.button1.update();
-        this.button2.update();
-        this.button3.update();
+        for(let i=0; i<this.buttons.length; i++) {
+            this.buttons[i].update();
+        }
+        // todo:点击
     }
 
     updatePosition() {
-        this.button1.x = this.x;
-        this.button1.y = this.y;
-        this.button2.x = this.x;
-        this.button2.y = this.y + 64;
-        this.button3.x = this.x;
-        this.button3.y = this.y + 2*64;
+        for(let i=0; i<this.buttons.length; i++) {
+            this.buttons[i].x = this.x;
+            this.buttons[i].y = this.y + i*64;
+        }
     }
 
-    get data() {
+    get gameBattle() {
         return RV.GameData.Battle;
+    }
+
+    get gameTemp() {
+        return RV.GameData.Temp;
+    }
+
+    get logic() {
+        return IVal.scene.logic;
     }
 }
