@@ -145,5 +145,8 @@ class WindowDebug extends WindowBase {
         gameEnemy.damage(200);
         gameBattle.turn += 1;
         gameParty.pt += 1;
+
+        let b1 = gameParty.battlers[0];
+        b1.playingSkill = b1.skill1;
     }
 }
