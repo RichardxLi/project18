@@ -35,13 +35,13 @@ class SpritesetBattle {
         this.sPartyBg.y = this.height/2;
         this.sPartyBg.z = 10;
 
-        this.sMenu = new SpriteBattleMenu(this.width-186-RV.System.Padding-100, this.height/2+64+RV.System.Padding+100, this._viewport);
-        this.sPartyStatus = new SpritePartyStatus(RV.System.Padding, this.height/2+64+RV.System.Padding, this._viewport);
+        this.sMenu = new SpriteBattleMenu(this.width-186-RV.System.Padding-100, this.height/2+this.sPartyLp.height+RV.System.Padding+100, this._viewport);
+        this.sPartyStatus = new SpritePartyStatus(RV.System.Padding, this.height/2+this.sPartyLp.height+RV.System.Padding, this._viewport);
 
         for(let i=0; i<this.gameBattle.party.battlers.length; i++) {
             this.sBattlers[i] = new SpriteBattler(i, this._viewport);
             this.sBattlers[i].x = RV.System.Padding+this.sPartyStatus.width+this.battlerPadding+(this.sBattlers[i].width+this.battlerPadding)*i;
-            this.sBattlers[i].y = this.height/2+64+RV.System.Padding;
+            this.sBattlers[i].y = this.height/2+this.sPartyLp.height+RV.System.Padding;
         }
     }
 

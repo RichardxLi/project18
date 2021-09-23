@@ -81,4 +81,8 @@ class SpritePartyLp {
     get frontWidth() {
         return parseInt(this._front.width * this.gameParty.lp / this.gameParty.maxLp);
     }
+
+    get height() {
+        return this._back.height;
+    }
 }
