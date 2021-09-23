@@ -4,23 +4,18 @@
  * @param txt       文本
  */
 class SpriteButton extends IButton {
-    constructor(viewport, txt) {
+    constructor(title, viewport) {
         let bmp1 = RF.LoadCache("System/button-menu_0.png");
         let bmp2 = RF.LoadCache("System/button-menu_1.png");
         super(bmp1, bmp2, " ", viewport, false);
         this._bmp1 = bmp1;
         this._bmp2 = bmp2;
-        this.title = txt;
+        this.title = title;
         this.fontSize = 24;
     }
 
-    // 刷帧 -- 需手动调用
-    update() {
-        super.update();
-    }
-
     updateBase() {
-        this.drawTitleQ(this.title, IColor.White(), this.fontSize);
+        if(this.title!="") this.drawTitleQ(this.title, IColor.White(), this.fontSize);
     }
 
     doFocus() {

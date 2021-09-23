@@ -11,18 +11,18 @@ class SpriteEnemyLp {
         this._backBmp = RF.LoadCache("System/enemy-lp_0.png");
         this._back = new ISprite(this._backBmp, viewport);
         this._back.yx = 1;
-        this._back.z = 1;
+        this._back.z = 100;
 
         this._frontBmp = RF.LoadCache("System/enemy-lp_1.png");
         this._frontBCof = new IBCof(this._frontBmp, 0, 0, this._back.width, this._back.height);
         this._front = new ISprite(this._frontBCof, viewport);
         this._front.yx = 1;
-        this._front.z = 2;
+        this._front.z = 101;
 
         this._textBmp = IBitmap.CBitmap(RV.System.Width/3, this.fontSize * 2);
         this._text = new ISprite(this._textBmp, viewport);
         this._text.yx = 1;
-        this._text.z = 3;
+        this._text.z = 102;
         this.drawText();
 
         this.animFrame = 12; // 动画持续帧数

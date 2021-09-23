@@ -66,6 +66,7 @@ class SceneStart extends SceneBase {
         RD.LoadSet(function(){_sf.load += 1});
         RD.LoadProject(function(){_sf.load += 1});
         RD.LoadElement();
+        RD.LoadSkill();
         RD.LoadClass();
     }
 

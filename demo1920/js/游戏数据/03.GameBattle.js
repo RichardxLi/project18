@@ -10,7 +10,7 @@ class GameBattle {
         this.enemy = new GameBattleEnemy(); // 敌人
 
         this.state = 0; // 状态机
-        this.isAnim = false; // 动画播放中
+        this.processing = false; // 处理中，禁止输入
     }
 
     init() {
@@ -20,6 +20,6 @@ class GameBattle {
         this.enemy.setup(this.enemyId);
 
         this.state = 0;
-        this.isAnim = false;
+        this.processing = false;
     }
 }

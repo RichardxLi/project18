@@ -49,7 +49,7 @@ class SceneTest extends SceneBase {
         this.wSelect.init();
         let menu = ["选项1", "选项2"];
         for (let i = 0; i < menu.length; i++) {
-            let bt = new SpriteButton(this.wSelect._viewport, menu[i]);
+            let bt = new SpriteButton(menu[i], this.wSelect._viewport);
             bt.x = 0;
             bt.y = i*50;
             this.wSelect._buttons[i] = bt;

@@ -7,6 +7,7 @@ class GameTemp {
         this.enemyId = 0; // 当前敌人编号
         this.selectSkillIndex = 0; // 选中技能
         this.selectBattlerIndex = 0; // 选中主战者
+        this.waitingAnim = false; // 等待动画播放完毕
     }
 
     reset() {
