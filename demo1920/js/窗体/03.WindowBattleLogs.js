@@ -36,7 +36,7 @@ class WindowBattleLogs extends WindowBase {
     update() {
         super.update();
         if(this._content.visible) this.updateContent();
-        if(this.active) this.updateBasic();
+        if(this.active) this.updateInput();
     };
 
     updateContent() {
@@ -57,7 +57,7 @@ class WindowBattleLogs extends WindowBase {
         }
     };
 
-    updateBasic() {
+    updateInput() {
         if(this.sButton.isSelected() && IInput.up) {
             IInput.up = false;
             this.hide();
