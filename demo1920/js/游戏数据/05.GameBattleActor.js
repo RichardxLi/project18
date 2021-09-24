@@ -16,14 +16,17 @@ class GameBattleActor {
 
         this.stun = false;
         this.boost = false;
-        this.wt = 0;
         this.playingSkill = null;
     }
 
     reset() {
         this.stun = false;
         this.boost = false;
-        this.wt = 0;
         this.playingSkill = null;
+    }
+
+    get wt() {
+        if(this.playingSkill!=null) return this.playingSkill.wtRemain;
+        return 0;
     }
 }

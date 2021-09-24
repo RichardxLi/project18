@@ -16,5 +16,6 @@ class DataSkill {
         this.debuff = []; // 附加弱化
         this.ex = 0; // 特殊效果 1-强制胜利 2-回复最大耐力9%
         this.desc = ""; // 文本描述
+        this.animId = 0; // 技能动画
     }
 }

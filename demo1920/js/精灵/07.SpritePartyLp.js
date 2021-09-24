@@ -60,7 +60,6 @@ class SpritePartyLp {
     }
 
     damaging() {
-        RV.GameData.Temp.waitingAnim = true;
         let remain = this.frontWidth - this._frontBCof.width;
         let remainFrame = this.animFrame - this._nowFrame;
         let frameDiff = remain / remainFrame;
@@ -70,7 +69,6 @@ class SpritePartyLp {
             this._frontBCof.width = this.frontWidth;
             this._nowFrame = 0;
             this.drawText();
-            RV.GameData.Temp.waitingAnim = false;
         }
     }
 

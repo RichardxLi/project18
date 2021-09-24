@@ -5,17 +5,25 @@
  */
 class GameBattleEnemy {
     constructor() {
-        this.name = "小陈同学";
+        this.dataId = 0;
+        this.name = "";
+        this.picture = "";
         this.lp = 0;
         this.maxLp = 0;
+
+        this.buffs = [];
+        this.debuffs = [];
+        this.playingSkills = []; // <GameSkill>
     }
 
     setup(id) {
         if(id==0) {
             this.setDemo();
+            this.name = "小陈同学";
+            this.picture = "boss.png";
             return;
         }
-
+        this.dataId = id;
     }
 
     setDemo() {

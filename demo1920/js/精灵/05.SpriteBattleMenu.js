@@ -29,11 +29,14 @@ class SpriteBattleMenu {
             this.buttons[i].updateBase();
         }
 
-        if(this.gameBattle.processing || this.gameTemp.waitingAnim) return;
+        if(this.gameTemp.inputEnable) return;
 
-        for(let i=0; i<this.buttons.length; i++) {
-            this.buttons[i].update();
+        if(this.gameBattle.skillEnable) {
+            for(let i=0; i<this.buttons.length; i++) {
+                this.buttons[i].update();
+            }
         }
+
         // todo:点击
     }
 
@@ -50,9 +53,5 @@ class SpriteBattleMenu {
 
     get gameTemp() {
         return RV.GameData.Temp;
-    }
-
-    get logic() {
-        return IVal.scene.logic;
     }
 }

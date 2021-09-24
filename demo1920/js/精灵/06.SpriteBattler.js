@@ -17,6 +17,9 @@ class SpriteBattler {
             this.skills[i] = new SpriteSkill(index*3+i, viewport);
             this.skills[i].z = 101;
         }
+
+        this.playingSkill = new SpritePlayingSkill(index, viewport);
+        this.playingSkill.z = 100;
     }
 
     dispose() {
@@ -24,17 +27,20 @@ class SpriteBattler {
         for(let i=0; i<3; i++) {
             this.skills[i].disposeMin();
         }
+        if(this.playingSkill!=null) this.playingSkill.disposeMin();
     }
 
     update() {
         this.updatePosition();
         this.updateBase();
 
-        if(this.gameBattle.processing || this.gameTemp.waitingAnim) return;
+        if(this.gameTemp.inputEnable) return;
 
-        for(let i=0; i<3; i++) {
-            this.skills[i].update();
-            this.skills[i].updateClick();
+        if(this.gameBattle.skillEnable) {
+            for(let i=0; i<3; i++) {
+                this.skills[i].update();
+                this.skills[i].updateClick();
+            }
         }
     }
 
@@ -45,10 +51,13 @@ class SpriteBattler {
             this.skills[i].x = this.x+8;
             this.skills[i].y = this.y+180+62*i;
         }
+        this.playingSkill.x = this.x;
+        this.playingSkill.y = this.y;
     }
 
     updateBase() {
         this.bmp = RF.LoadCache("Picture/Battler/"+this.gameActor.picture);
+        this.battler.clearBitmap();
         this.battler.setBitmap(this.bmp);
         this.battler.drawRect(new IRect(0,0,this.width,40), new IColor(50,125,255));
         this.battler.drawTextQ("L"+this.gameBattler.level, 4, 6, IColor.White(), RV.System.FontSize);
@@ -58,6 +67,11 @@ class SpriteBattler {
         for(let i=0; i<3; i++) {
             this.skills[i].updateBase();
         }
+        this.playingSkill.updateBase();
+    }
+
+    flash(color, frame) {
+        this.battler.flash(color, frame);
     }
 
     get width() {

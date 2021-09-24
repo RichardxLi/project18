@@ -47,6 +47,7 @@ class SceneBattle extends SceneBase {
             return;
         }
 
+        this.logic.stateMain();
         this.wLog.update();
         this.spriteset.update();
     };

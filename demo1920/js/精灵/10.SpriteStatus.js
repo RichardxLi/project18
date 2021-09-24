@@ -1,11 +1,12 @@
 /**
- * 精灵 -- 队伍状态
+ * 精灵 -- 状态栏
  * SpritesetBattle内部使用
  */
-class SpritePartyStatus {
-    constructor(x, y, viewport) {
+class SpriteStatus {
+    constructor(data, x, y, viewport) {
         this.x = x;
         this.y = y;
+        this.data = data;
 
         this.bgBmp = IBitmap.CBitmap(300,425);
         this.bg = new ISprite(this.bgBmp, viewport);
@@ -32,15 +33,11 @@ class SpritePartyStatus {
         return this.bg.width;
     }
 
-    get gameParty() {
-        return RV.GameData.Battle.party;
-    }
-
     get gameBuffs() {
-        return this.gameParty.buffs;
+        return this.data.buffs;
     }
 
     get gameDebuffs() {
-        return this.gameParty.debuffs;
+        return this.data.debuffs;
     }
 }

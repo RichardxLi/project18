@@ -96,7 +96,7 @@ class SceneTest extends SceneBase {
 
         if(this.sprite2.isSelected() && IInput.up) {
             IInput.up = false;
-            IVal.scene.playAnim(9, new IRect(500, 150, 600, 350));
+            IVal.scene.playAnim(9, new IRect(550, 300, 550, 300));
         }
 
         if(this.sprite3.isSelected() && IInput.up) {
