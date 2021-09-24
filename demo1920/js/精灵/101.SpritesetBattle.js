@@ -80,13 +80,17 @@ class SpritesetBattle extends SpritesetBase{
 
     updateBase() {
         if(this.gameTemp.enemyDamage > 0) {
+            this.gameTemp.enemyDamage = 0;
             RV.GameData.Temp.waitingAnim = true;
             let skill = this.gameTemp.actSkill;
             let _sf = this;
             this.playEnemyDamage(skill.animId, function() {
-                _sf.logic.doActDone();
+                if(_sf.gameTemp.callback != null) _sf.gameTemp.callback();
                 _sf.gameTemp.waitingAnim = false;
             });
+        }
+        if(this.gameTemp.partyDamage > 0) {
+
         }
     }
 

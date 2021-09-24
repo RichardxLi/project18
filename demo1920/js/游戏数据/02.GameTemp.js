@@ -6,6 +6,7 @@ class GameTemp {
     constructor() {
         this.enemyId = 0; // 当前敌人编号
 
+        this.wait = 0; // 等待帧
         this.selectSkill = null; // 选中技能
         this.selectBattler = null; // 选中主战者
         this.waitingAnim = false; // 等待动画播放完毕
@@ -14,9 +15,12 @@ class GameTemp {
         this.actBattler = null; // 结算中主战者
         this.partyDamage = 0; // 队伍当前承受伤害
         this.enemyDamage = 0; // 敌人当前承受伤害
+        this.callback = null; // 动画结束后回调
+
     }
 
     resetBattle() {
+        this.wait = 0;
         this.selectSkill = null;
         this.selectBattler = null;
         this.waitingAnim = false;
@@ -25,5 +29,6 @@ class GameTemp {
         this.actBattler = null;
         this.partyDamage = 0;
         this.enemyDamage = 0;
+        this.callback = null;
     }
 }

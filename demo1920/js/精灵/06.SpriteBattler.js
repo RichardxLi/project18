@@ -34,7 +34,7 @@ class SpriteBattler {
         this.updatePosition();
         this.updateBase();
 
-        if(this.gameTemp.inputEnable) return;
+        if(!this.gameTemp.inputEnable) return;
 
         if(this.gameBattle.skillEnable) {
             for(let i=0; i<3; i++) {

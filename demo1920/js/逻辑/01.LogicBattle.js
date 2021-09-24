@@ -12,6 +12,7 @@ class LogicBattle {
     // 主状态机
     stateMain() {
         if(this.gameTemp.waitingAnim) return;
+        log(this.gameBattle.state);
 
         switch (this.gameBattle.state) {
             case GameBattle.Init:
@@ -162,7 +163,7 @@ class LogicBattle {
         if(this.gameTemp.actSkill == null) {
             for(let i=0; i<this.gameParty.battlers.length; i++) {
                 let b = this.gameParty.battlers[i];
-                if(b.wt<=0) {
+                if(b.playingSkill!=null && b.wt<=0) {
                     this.gameTemp.actSkill = b.playingSkill;
                     this.gameTemp.actBattler = b;
                     break;
@@ -260,7 +261,7 @@ class LogicBattle {
     turnEnd() {
         // todo: <后发>被动 进队列
 
-        this.gameBattle.state = GameBattle.TurnBeginAbility;
+        this.gameBattle.state = GameBattle.TurnEndAbility;
     }
 
     // 后发处理
@@ -281,11 +282,19 @@ class LogicBattle {
     doAct() {
         // todo: 计算伤害
         this.gameTemp.enemyDamage = 100;
+        this.gameEnemy.damage(this.gameTemp.enemyDamage);
 
+        // 设置回调
+        this.gameTemp.callback = this.doActCallback
     }
 
-    doActDone() {
-        this.gameEnemy.damage(this.gameTemp.enemyDamage);
+    // 技能结算回调 ()
+    doActCallback() {
+        RV.GameData.Temp.callback = null;
+        RV.GameData.Temp.actSkill.wtDone = 0;
+        RV.GameData.Temp.actSkill = null;
+        RV.GameData.Temp.actBattler.playingSkill = null;
+        RV.GameData.Temp.actBattler = null;
     }
 
     // 胜负判断
