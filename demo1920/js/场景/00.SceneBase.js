@@ -23,7 +23,7 @@ class SceneBase {
         }
 
         // alt+Enter 全屏
-        if(RC.IsKeyFull()) {
+        if(RC.IsKeyFullScreen()) {
             RV.System.Full = (RV.System.Full+1)%2;
             setWindowStatus(RV.System.Full);
         }

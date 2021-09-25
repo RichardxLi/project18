@@ -51,7 +51,7 @@ class SpriteBattler {
 
         for(let i=0; i<this.skills.length; i++) {
             this.skills[i].update();
-            this.skills[i].updateClick();
+            this.skills[i].updateInput();
         }
     }
 

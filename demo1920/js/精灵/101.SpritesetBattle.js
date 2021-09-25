@@ -18,6 +18,8 @@ class SpritesetBattle extends SpritesetBase{
         this.sEnemy = null; // 敌方前景
         this.sEnemyStatus = null; // 敌方状态栏
         this.sEnemyAction = null; // 敌方行动栏
+
+        this.sHelp = null; // 信息提示层
     }
 
     init() {
