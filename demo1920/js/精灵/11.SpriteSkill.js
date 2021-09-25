@@ -79,9 +79,21 @@ class SpritePlayingSkill extends ISprite {
         this.opacity = 1;
         this.drawTextQ(this.gameSkill.name, 16, 6, IColor.White(), this.fontSize);
         this.drawTextQ(this.gameSkill.wtRemain, 254, 8, IColor.Blue(), this.fontSize-4);
+
+        if(this.gameTemp.actSkill == this.gameSkill) {
+            this.zoomX = 1.2;
+            this.zoomY = 1.2;
+        } else {
+            this.zoomX = 1;
+            this.zoomY = 1;
+        }
     }
 
     get gameSkill() {
         return RV.GameData.Battle.party.battlers[this.index].playingSkill;
+    }
+
+    get gameTemp() {
+        return RV.GameData.Temp;
     }
 }

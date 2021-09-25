@@ -12,7 +12,6 @@ class LogicBattle {
     // 主状态机
     stateMain() {
         if(this.gameTemp.waitingAnim) return;
-        log(this.gameBattle.state);
 
         switch (this.gameBattle.state) {
             case GameBattle.Init:
@@ -71,7 +70,6 @@ class LogicBattle {
     gameBegin() {
         // todo: <开幕>被动 进队列
 
-        this.gameTemp.inputEnable = false;
         this.gameBattle.state = GameBattle.InitProcess;
     }
 
@@ -229,7 +227,6 @@ class LogicBattle {
 
     // 等待用户输入
     main() {
-        this.gameTemp.inputEnable = true;
         if(this.gameTemp.selectSkill != null) {
             this.gameBattle.state = GameBattle.Cast;
             return;
@@ -237,7 +234,6 @@ class LogicBattle {
     }
 
     cast() {
-        this.gameTemp.inputEnable = false;
         this.gameTemp.selectBattler.playingSkill = this.gameTemp.selectSkill;
         this.gameTemp.selectBattler = null;
         this.gameTemp.selectSkill = null;
@@ -281,20 +277,26 @@ class LogicBattle {
     // 我方技能结算
     doAct() {
         // todo: 计算伤害
-        this.gameTemp.enemyDamage = 100;
-        this.gameEnemy.damage(this.gameTemp.enemyDamage);
+        let damage = 100;
+        this.gameTemp.enemyDamage = damage;
 
         // 设置回调
         this.gameTemp.callback = this.doActCallback
     }
 
-    // 技能结算回调 ()
+    // 技能结算回调
     doActCallback() {
-        RV.GameData.Temp.callback = null;
-        RV.GameData.Temp.actSkill.wtDone = 0;
-        RV.GameData.Temp.actSkill = null;
-        RV.GameData.Temp.actBattler.playingSkill = null;
-        RV.GameData.Temp.actBattler = null;
+        let gameTemp = RV.GameData.Temp;
+        let gameEnemy = RV.GameData.Battle.enemy;
+
+        gameEnemy.damage(gameTemp.enemyDamage);
+
+        gameTemp.enemyDamage = 0;
+        gameTemp.callback = null;
+        gameTemp.actSkill.wtDone = 0;
+        gameTemp.actSkill = null;
+        gameTemp.actBattler.playingSkill = null;
+        gameTemp.actBattler = null;
     }
 
     // 胜负判断
@@ -312,10 +314,10 @@ class LogicBattle {
     }
 
     get gameParty() {
-        return RV.GameData.Battle.party;
+        return this.gameBattle.party;
     }
 
     get gameEnemy() {
-        return RV.GameData.Battle.enemy;
+        return this.gameBattle.enemy;
     }
 }

@@ -79,8 +79,7 @@ class SpritesetBattle extends SpritesetBase{
     }
 
     updateBase() {
-        if(this.gameTemp.enemyDamage > 0) {
-            this.gameTemp.enemyDamage = 0;
+        if(this.gameTemp.enemyDamage > 0 && !RV.GameData.Temp.waitingAnim) {
             RV.GameData.Temp.waitingAnim = true;
             let skill = this.gameTemp.actSkill;
             let _sf = this;
@@ -89,19 +88,21 @@ class SpritesetBattle extends SpritesetBase{
                 _sf.gameTemp.waitingAnim = false;
             });
         }
-        if(this.gameTemp.partyDamage > 0) {
-
+        if(this.gameTemp.partyDamage > 0 && !RV.GameData.Temp.waitingAnim) {
+            //todo: 我方承伤
         }
     }
 
     playPartyDamage(id, endFunc=null) {
         let rect = new IRect(this.width/2, this.height/4*3, this.width/2, this.height/4*3);
         this.playAnim(id, rect, endFunc);
+        this.flashParty(IColor.Red(), 24);
     }
 
     playEnemyDamage(id, endFunc=null) {
         let rect = new IRect(this.width/2, this.height/4, this.width/2, this.height/4);
         this.playAnim(id, rect, endFunc);
+        this.flashEnemy(IColor.White(), 24);
     }
 
     flashParty(color, frame) {

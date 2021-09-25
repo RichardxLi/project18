@@ -24,8 +24,6 @@ class SceneDebug extends SceneBase {
         super.update();
         if(this.loading) return;
 
-        //this.wDebug.update();
-        this.wDebug.initGameBattle();
-        IVal.scene.goto(new SceneBattle());
+        this.wDebug.update();
     };
 }

@@ -60,12 +60,14 @@ class SpritePartyLp {
     }
 
     damaging() {
+        RV.GameData.Temp.waitingAnim = true;
         let remain = this.frontWidth - this._frontBCof.width;
         let remainFrame = this.animFrame - this._nowFrame;
         let frameDiff = remain / remainFrame;
         this._frontBCof.width += frameDiff;
         this._nowFrame++;
         if(this._nowFrame >= this.animFrame) {
+            RV.GameData.Temp.waitingAnim = false;
             this._frontBCof.width = this.frontWidth;
             this._nowFrame = 0;
             this.drawText();

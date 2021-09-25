@@ -56,13 +56,11 @@ class GameActor {
     }
 
     get hp() {
-        let partyPlus = RV.GameData.Player.lpPlus;
-        return parseInt(this.hpBase * (100 + this.hpPlus + partyPlus) / 100);
+        return parseInt(this.hpBase * (100 + this.hpPlus) / 100);
     }
 
     get at() {
-        let partyPlus = RV.GameData.Player.atPlus;
-        return parseInt(this.atBase * (100 + this.atPlus + partyPlus) / 100);
+        return parseInt(this.atBase * (100 + this.atPlus) / 100);
     }
 
     get skillEx() {

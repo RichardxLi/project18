@@ -29,4 +29,8 @@ class GameBattleActor {
         if(this.playingSkill!=null) return this.playingSkill.wtRemain;
         return 0;
     }
+
+    get isEmpty() {
+        return this.actor.classId == 0;
+    }
 }

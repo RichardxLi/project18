@@ -29,15 +29,12 @@ class SpriteBattleMenu {
             this.buttons[i].updateBase();
         }
 
-        if(!this.gameTemp.inputEnable) return;
+        if(!this.gameBattle.MenuEnable) return;
 
-        if(this.gameBattle.skillEnable) {
-            for(let i=0; i<this.buttons.length; i++) {
-                this.buttons[i].update();
-            }
+        for(let i=0; i<this.buttons.length; i++) {
+            this.buttons[i].update();
+            // todo:点击
         }
-
-        // todo:点击
     }
 
     updatePosition() {

@@ -11,7 +11,6 @@ class GameBattle {
         this.background = "";
 
         this.state = 0; // 状态机
-        this.processing = false; // 处理中，禁止输入
     }
 
     init() {
@@ -21,11 +20,16 @@ class GameBattle {
         this.enemy.setup(this.enemyId);
 
         this.state = GameBattle.Init;
-        this.processing = false;
     }
 
+    // 允许技能输入
     get skillEnable() {
         return this.state == GameBattle.Main;
+    }
+
+    // todo:允许菜单输入
+    get MenuEnable() {
+        return true;
     }
 }
 

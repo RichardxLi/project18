@@ -77,16 +77,6 @@ class GamePlayer {
         this._reserverIds.splice(target, 1);
     }
 
-    get lpPlus() {
-        // todo: 被动-耐久指挥
-        return 0;
-    }
-
-    get atPlus() {
-        // todo: 被动-攻击指挥
-        return 0;
-    }
-
     get maxLp() {
         let maxLp = 0;
         for(let i=0; i<this._battlerIds.length; i++) {

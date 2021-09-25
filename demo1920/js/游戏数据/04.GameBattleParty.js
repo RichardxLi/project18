@@ -20,7 +20,7 @@ class GameBattleParty {
 
     setup() {
         let gamePlayer = RV.GameData.Player;
-        this.name = gamePlayer.partyName
+        this.name = gamePlayer.partyName;
         this.pt = 0;
         this.maxPt = 5;
         this.buffs = [];
@@ -35,13 +35,19 @@ class GameBattleParty {
         this.supporter = new GameBattleActor(gamePlayer.supporter());
     }
 
+    // 攻击增强
+    atPlus() {
+        // 被动 - 攻击指挥
+        return 0;
+    }
+
     // 命中
     get acc() {
         return this.baseAcc + this.accPlus;
     }
 
     get baseAcc() {
-        // 被动 - 命中
+        // 被动 - 命中指挥
         return 0;
     }
 
@@ -56,7 +62,7 @@ class GameBattleParty {
     }
 
     get baseEva() {
-        // 被动 - 闪避
+        // 被动 - 闪避指挥
         return 0;
     }
 
@@ -71,7 +77,7 @@ class GameBattleParty {
     }
 
     get baseDef() {
-        // 被动 - 抵抗
+        // 被动 - 抵抗指挥
         return 0;
     }
 

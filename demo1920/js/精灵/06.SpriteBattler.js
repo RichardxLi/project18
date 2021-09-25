@@ -8,6 +8,16 @@ class SpriteBattler {
         this.x = 0;
         this.y = 0;
 
+        if(this.gameBattler.isEmpty) {
+            this.bmp = RF.LoadCache("Picture/Battler/empty.png");
+            this.battler = new ISprite(this.bmp, viewport);
+            this.battler.z = 100;
+
+            this.skills = [];
+            this.playingSkill = new SpritePlayingSkill(index, viewport);
+            return;
+        }
+
         this.bmp = RF.LoadCache("Picture/Battler/"+this.gameActor.picture);
         this.battler = new ISprite(this.bmp, viewport);
         this.battler.z = 100;
@@ -24,30 +34,31 @@ class SpriteBattler {
 
     dispose() {
         this.battler.disposeMin();
-        for(let i=0; i<3; i++) {
+
+        for(let i=0; i<this.skills.length; i++) {
             this.skills[i].disposeMin();
         }
-        if(this.playingSkill!=null) this.playingSkill.disposeMin();
+        this.playingSkill.disposeMin();
     }
 
     update() {
         this.updatePosition();
+        if(this.gameBattler.isEmpty) return;
+
         this.updateBase();
 
-        if(!this.gameTemp.inputEnable) return;
+        if(!this.gameBattle.skillEnable) return;
 
-        if(this.gameBattle.skillEnable) {
-            for(let i=0; i<3; i++) {
-                this.skills[i].update();
-                this.skills[i].updateClick();
-            }
+        for(let i=0; i<this.skills.length; i++) {
+            this.skills[i].update();
+            this.skills[i].updateClick();
         }
     }
 
     updatePosition() {
         this.battler.x = this.x;
         this.battler.y = this.y+80;
-        for(let i=0; i<3; i++) {
+        for(let i=0; i<this.skills.length; i++) {
             this.skills[i].x = this.x+8;
             this.skills[i].y = this.y+180+62*i;
         }
@@ -71,6 +82,7 @@ class SpriteBattler {
     }
 
     flash(color, frame) {
+        if(this.gameBattler.isEmpty) return;
         this.battler.flash(color, frame);
     }
 
@@ -88,9 +100,5 @@ class SpriteBattler {
 
     get gameActor() {
         return this.gameBattler.actor;
-    }
-
-    get gameTemp() {
-        return RV.GameData.Temp;
     }
 }

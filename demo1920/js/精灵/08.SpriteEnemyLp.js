@@ -66,6 +66,7 @@ class SpriteEnemyLp {
     }
 
     damaging() {
+        RV.GameData.Temp.waitingAnim = true;
         let remain = this.frontX - this._frontBCofX;
         let remainFrame = this.animFrame - this._nowFrame;
         let frameDiff = remain / remainFrame;
@@ -74,6 +75,7 @@ class SpriteEnemyLp {
         this._frontBCof.width = this._front.width - this._frontBCofX;
         this._nowFrame++;
         if(this._nowFrame >= this.animFrame) {
+            RV.GameData.Temp.waitingAnim = false;
             this._frontBCofX = this.frontX;
             this._frontBCof.x = this._frontBCofX;
             this._frontBCof.width = this._front.width - this._frontBCofX;
