@@ -29,7 +29,7 @@ class SpriteBattler {
         }
 
         this.playingSkill = new SpritePlayingSkill(index, viewport);
-        this.playingSkill.z = 100;
+        this.playingSkill.z = 101;
     }
 
     dispose() {
@@ -79,6 +79,12 @@ class SpriteBattler {
             this.skills[i].updateBase();
         }
         this.playingSkill.updateBase();
+
+        if(this.gameTemp.actBattler == this.gameBattler) {
+            this.battler.z = 200;
+        } else {
+            this.battler.z = 100;
+        }
     }
 
     flash(color, frame) {
@@ -88,6 +94,10 @@ class SpriteBattler {
 
     get width() {
         return this.battler.width;
+    }
+
+    get gameTemp() {
+        return RV.GameData.Temp;
     }
 
     get gameBattle() {
