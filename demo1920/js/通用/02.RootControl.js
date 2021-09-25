@@ -23,7 +23,7 @@ RC.IsKeyExit = function() {
     return IInput.isKeyPress(18) && IInput.isKeyPress(115);
 };
 
-RC.IsKeyFull = function() {
+RC.IsKeyFullScreen = function() {
     return IInput.isKeyPress(18) && IInput.isKeyPress(13);
 };
 
@@ -237,4 +237,16 @@ RC.CodeToSting = function(code) {
         default:
             return "无效";
     }
+};
+
+RC.IsLeftClick = function () {
+    return IInput.up && IInput.mouseButton==0;
+};
+
+RC.IsRightClick = function () {
+    return IInput.up && IInput.mouseButton==1;
+};
+
+RC.IsRightDown = function() {
+    return IInput.down && IInput.mouseButton==1;
 };
