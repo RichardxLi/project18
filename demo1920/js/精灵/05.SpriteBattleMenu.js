@@ -8,7 +8,7 @@ class SpriteBattleMenu {
         this.y = y;
 
         this.buttons = [];
-        let txt = ["换人", "重开", "帮助", "菜单"];
+        let txt = ["跳过", "换人", "重开", "帮助", "菜单"];
         for(let i=0; i<txt.length; i++) {
             this.buttons[i] = new SpriteButton(txt[i], viewport);
             this.buttons[i].z = 100;
