@@ -5,6 +5,7 @@
 class LogicBattle {
     // 数据设置
     setup() {
+        this.gameTemp.resetBattle();
         this.gameBattle.init(RV.GameData.Temp.enemyId);
     }
 
@@ -174,13 +175,13 @@ class LogicBattle {
             }
         }
 
-        // todo: 无可用技能
+        // 无可用技能
         if(this.gameTemp.actSkill == null) {
             this.gameBattle.state = GameBattle.EnemyAct;
             return;
         }
 
-        // todo: 结算
+        // 结算
         this.doAct();
     }
 
@@ -218,16 +219,26 @@ class LogicBattle {
     }
 
     enemyQuickAct() {
-        // todo: 当前无结算 取技能
+        // 当前无结算 取技能
+        if(this.gameTemp.actSkill == null) {
+            for(let i=0; i<this.gameParty.battlers.length; i++) {
+                let b = this.gameParty.battlers[i];
+                if(b.playingSkill!=null && b.wt<=0) {
+                    this.gameTemp.actSkill = b.playingSkill;
+                    this.gameTemp.actBattler = b;
+                    break;
+                }
+            }
+        }
 
-        // todo: 无可用技能
-        if(true) {
+        // 无可用技能
+        if(this.gameTemp.actSkill == null) {
             this.gameBattle.state = GameBattle.Main;
             return;
         }
 
-        // todo: 结算
-
+        // 结算
+        this.doAct();
     }
 
     // 等待用户输入
@@ -279,29 +290,7 @@ class LogicBattle {
 
     }
 
-    // 我方技能结算
-    doAct() {
-        // todo: 计算伤害
-        this.gameBattle.damage = 100;
-        this.gameBattle.enemyDamage = this.gameBattle.damage;
-
-        // 设置回调
-        this.gameTemp.callback = this.doActCallback
-    }
-
-    // 技能结算回调
-    doActCallback() {
-        let gameTemp = RV.GameData.Temp;
-        let gameBattle = RV.GameData.Battle
-        let gameEnemy = gameBattle.enemy;
-        gameEnemy.doDamage(gameBattle.damage);
-        gameTemp.callback = null;
-        gameTemp.actSkill.wtDone = 0;
-        gameTemp.actSkill = null;
-        gameTemp.actBattler.playingSkill = null;
-        gameTemp.actBattler = null;
-    }
-
+    // 换人
     exchange() {
         if(this.gameParty.supporter.isEmpty || this.gameParty.pt <= 0 || this.gameBattle.exchangeDone) {
             this.gameBattle.state = GameBattle.Main;
@@ -348,5 +337,60 @@ class LogicBattle {
 
     get gameEnemy() {
         return this.gameBattle.enemy;
+    }
+
+    // -----------------------------------------------
+    // 我方技能结算
+    doAct() {
+        let a = this.gameTemp.actBattler;
+        let d = this.gameBattle.enemy;
+        let s = this.gameTemp.actSkill;
+        let at = parseInt(a.at * (100+this.gameParty.atPlus) / 100);
+        let baseDamage = parseInt(at * s.power / 20);
+
+        switch (s.type) {
+            case GameSkill.Type.ATTACK:
+                // 修正伤害
+
+                // 命中
+
+                // combo
+                break;
+            case GameSkill.Type.Heal:
+
+                break;
+            case GameSkill.Type.Buff:
+                break;
+            case GameSkill.Type.Debuff:
+                break;
+        }
+
+
+        this.gameBattle.damage = 0;
+
+        // 计算伤害
+        this.gameBattle.enemyDamage = this.gameBattle.damage;
+
+        // 设置回调
+        this.gameTemp.callback = this.enemyDamageCallback
+    }
+
+    // 敌人承伤回调
+    enemyDamageCallback() {
+        let gameTemp = RV.GameData.Temp;
+        let gameBattle = RV.GameData.Battle
+        let gameEnemy = gameBattle.enemy;
+        gameEnemy.doDamage(gameBattle.damage);
+        gameBattle.party.combo++;
+        // todo: 状态
+        gameTemp.callback = null;
+        gameTemp.actSkill.wtDone = 0;
+        gameTemp.actSkill = null;
+        gameTemp.actBattler.playingSkill = null;
+        gameTemp.actBattler = null;
+    }
+
+    isHit() {
+        return true;
     }
 }

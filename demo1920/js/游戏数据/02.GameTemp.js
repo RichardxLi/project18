@@ -18,6 +18,11 @@ class GameTemp {
         this.actBattler = null; // 结算中主战者
         this.callback = null; // 动画结束后回调
 
+        this.partyDamage = -1; // 队伍伤害
+        this.enemyDamage = -1; // 敌人伤害
+        this.partyHealing = -1; // 队伍治疗
+        this.enemyHealing = -1; // 敌人治疗
+        this.isHit = false; // 是否命中
     }
 
     resetBattle() {
@@ -31,5 +36,11 @@ class GameTemp {
         this.actSkill = null;
         this.actBattler = null;
         this.callback = null;
+
+        this.partyDamage = -1;
+        this.enemyDamage = -1;
+        this.partyHealing = -1;
+        this.enemyHealing = -1;
+        this.isHit = false;
     }
 }

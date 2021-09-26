@@ -93,17 +93,36 @@ class SpritesetBattle extends SpritesetBase{
 
     updateBase() {
         // 敌方受击
-        if(this.gameBattle.enemyDamage > 0) {
-            this.gameBattle.enemyDamage = 0;
+        if(this.gameTemp.enemyDamage >= 0) {
+            this.gameTemp.enemyDamage = -1;
             this.gameTemp.waitingAnim = true;
             let skill = this.gameTemp.actSkill;
             let _sf = this;
             this.playEnemyDamage(skill.animId, function() {
                 _sf.gameTemp.waitingAnim = false;
             });
+            return;
         }
-        // todo:我方受击
-        if(this.gameTemp.partyDamage > 0) {
+        // 我方受击
+        if(this.gameTemp.partyDamage >= 0) {
+            this.gameTemp.partyDamage = -1;
+            this.gameTemp.waitingAnim = true;
+            let skill = this.gameTemp.actSkill;
+            let _sf = this;
+            this.playPartyDamage(skill.animId, function() {
+                _sf.gameTemp.waitingAnim = false;
+            });
+            return;
+        }
+        // 敌方治疗
+        if(this.gameTemp.enemyHealing >= 0) {
+            // todo: 治疗&buff
+            return;
+        }
+        // 我方治疗
+        if(this.gameTemp.partyHealing >= 0) {
+            // todo: 治疗&buff
+            return;
         }
         // 换人选择
         if (this.gameBattle.exchangeEnable) {
@@ -113,16 +132,19 @@ class SpritesetBattle extends SpritesetBase{
                     break;
                 }
             }
+            return;
         }
     }
 
     playPartyDamage(id, endFunc=null) {
+        //todo: 伤害 未命中 伤害=0（debuff)
         let rect = new IRect(this.width/2, this.height/4*3, this.width/2, this.height/4*3);
         this.playAnim(id, rect, endFunc);
         this.flashParty(IColor.Red(), 24);
     }
 
     playEnemyDamage(id, endFunc=null) {
+        //todo: 伤害 未命中 伤害=0（debuff)
         let rect = new IRect(this.width/2, this.height/4, this.width/2, this.height/4);
         this.playAnim(id, rect, endFunc);
         this.flashEnemy(IColor.White(), 24);

@@ -12,8 +12,6 @@ class GameBattle {
 
         this.state = 0; // 状态机
         this.damage = 0; // 当前结算伤害
-        this.partyDamage = 0; // 队伍待处理伤害
-        this.enemyDamage = 0; // 敌人待处理伤害
 
         this.exchangeDone = false; // 本回合已换人
     }

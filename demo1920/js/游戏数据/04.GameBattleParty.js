@@ -36,8 +36,14 @@ class GameBattleParty {
     }
 
     // 攻击增强
-    atPlus() {
+    get atPlus() {
         // 被动 - 攻击指挥
+        return 0;
+    }
+
+    // 元素增伤
+    ePlus(elementId) {
+        // 被动 - 元素强击
         return 0;
     }
 
