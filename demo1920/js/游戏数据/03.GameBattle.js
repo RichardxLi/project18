@@ -11,15 +11,31 @@ class GameBattle {
         this.background = "";
 
         this.state = 0; // 状态机
+        this.damage = 0; // 当前结算伤害
+        this.partyDamage = 0; // 队伍待处理伤害
+        this.enemyDamage = 0; // 敌人待处理伤害
+
+        this.exchangeDone = false; // 本回合已换人
     }
 
-    init() {
+    newTurn() {
+        this.turn++;
+        this.log.push(`★ 第${this.turn}回合`);
+        this.exchangeDone = false;
+    }
+
+    init(enemyId) {
+        this.enemyId = enemyId;
         this.turn = 0;
         this.log = [];
         this.party.setup();
         this.enemy.setup(this.enemyId);
+        //todo:background
 
         this.state = GameBattle.Init;
+        this.damage = 0;
+        this.partyDamage = 0;
+        this.enemyDamage = 0;
     }
 
     // 允许技能输入
@@ -27,9 +43,14 @@ class GameBattle {
         return this.state == GameBattle.Main;
     }
 
-    // todo:允许菜单输入
-    get MenuEnable() {
-        return true;
+    // 允许菜单输入
+    get menuEnable() {
+        return this.state == GameBattle.Main;
+    }
+
+    // 允许换人选择输入
+    get exchangeEnable() {
+        return this.state == GameBattle.Exchange;
     }
 }
 
@@ -47,5 +68,7 @@ GameBattle.EnemyQuickAct = 301;
 GameBattle.Main = 400;
 GameBattle.Cast = 401;
 GameBattle.QuickAct = 402;
+GameBattle.Exchange = 403;
+GameBattle.ExchangeProcess = 404;
 GameBattle.TurnEnd = 500;
 GameBattle.TurnEndAbility = 501;

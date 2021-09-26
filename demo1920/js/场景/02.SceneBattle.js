@@ -13,7 +13,7 @@ class SceneBattle extends SceneBase {
     init() {
         super.init();
         this.initWindow();
-        this.logic.setup(RV.GameData.Temp.enemyId);
+        this.logic.setup();
         this.spriteset.init();
         return true;
     };
@@ -47,8 +47,27 @@ class SceneBattle extends SceneBase {
             return;
         }
 
-        this.logic.stateMain();
         this.wLog.update();
         this.spriteset.update();
+        this.updateMenu();
+        this.logic.stateMain();
+        IInput.up = false;
     };
+
+    updateMenu() {
+        switch (RV.GameData.Temp.selectMenu) {
+            case 0:
+                // 跳过
+                RV.GameData.Battle.state = GameBattle.TurnEnd;
+                break;
+            case 1:
+                // 换人
+                RV.GameData.Battle.state = GameBattle.Exchange;
+                break;
+            case 2:
+            case 3:
+            case 4:
+        }
+        RV.GameData.Temp.selectMenu = -1;
+    }
 }

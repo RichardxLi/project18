@@ -32,7 +32,7 @@ class GameBattleEnemy {
     }
 
     // 伤害
-    damage(n) {
+    doDamage(n) {
         this.lp -= n;
         if(this.lp<0) this.lp = 0;
     }

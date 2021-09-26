@@ -25,4 +25,8 @@ class SpriteButton extends IButton {
     cancelFocus() {
         this.setBitmap(this._bmp1, this._bmp2);
     }
+
+    isLeftClick() {
+        return RC.IsLeftClick() && this.isSelected() && this.getEnable();
+    }
 }

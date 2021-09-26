@@ -13,11 +13,6 @@ class SpriteTurnInfo {
         this._back.yx = 0.5;
         this._back.z = 200;
 
-        // this._textBmp = IBitmap.CBitmap(this._back.width, this._back.height);
-        // this._text = new ISprite(this._textBmp, viewport);
-        // this._text.yx = 0.5;
-        // this._text.z = 201;
-
         // todo: PT值
         this._ptBmp = IBitmap.CBitmap(480, 24);
         this._pt = new ISprite(this._ptBmp, viewport);
@@ -29,7 +24,6 @@ class SpriteTurnInfo {
 
     dispose() {
         this._back.disposeMin();
-        //this._text.dispose();
         this._pt.dispose();
     }
 
@@ -41,8 +35,6 @@ class SpriteTurnInfo {
     updatePosition() {
         this._back.x = this.x;
         this._back.y = this.y;
-        // this._text.x = this.x;
-        // this._text.y = this.y;
         this._pt.x = this.x;
         this._pt.y = this.y+this._back.height;
     }

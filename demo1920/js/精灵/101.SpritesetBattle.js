@@ -14,12 +14,11 @@ class SpritesetBattle extends SpritesetBase{
         this.sMenu = null; // 菜单栏
         this.sPartyStatus = null; // 我方状态栏
         this.sBattlers = []; // 主战者
+        this.sSupporter = null; // 支援者
         this.sBackground = null; // 背景图
         this.sEnemy = null; // 敌方前景
         this.sEnemyStatus = null; // 敌方状态栏
         this.sEnemyAction = null; // 敌方行动栏
-
-        this.sHelp = null; // 信息帮助层
     }
 
     init() {
@@ -37,10 +36,18 @@ class SpritesetBattle extends SpritesetBase{
         this.sEnemyStatus = new SpriteStatus(RV.GameData.Battle.enemy, RV.System.Padding, RV.System.Padding, this._viewport);
 
         for(let i=0; i<this.gameBattle.party.battlers.length; i++) {
-            this.sBattlers[i] = new SpriteBattler(i, this._viewport);
-            this.sBattlers[i].x = RV.System.Padding+this.sPartyStatus.width+this.battlerPadding+(this.sBattlers[i].width+this.battlerPadding)*i;
-            this.sBattlers[i].y = this.height/2+this.sPartyLp.height+RV.System.Padding;
+            let xOffset = 0;
+            if(i>0) xOffset = this.sBattlers[i-1].width+this.battlerPadding;
+            let x = RV.System.Padding+this.sPartyStatus.width+this.battlerPadding+xOffset*i;
+            let y = this.height/2+this.sPartyLp.height+RV.System.Padding;
+            this.sBattlers[i] = new SpriteBattler(i, x, y, this._viewport);
         }
+        this.sSupporter = new SpriteSupporter(this._viewport);
+        this.sSupporter.x = this.sBattlers[0].x;
+        this.sSupporter.y = this.sBattlers[0].y+this.sBattlers[0].headHeight-this.sSupporter.height;
+
+        //todo: background
+        //this.sBackground.z = 1;
 
         this.sEnemy = new ISprite(RF.LoadCache("Picture/Enemy/boss.png"), this._viewport);
         this.sEnemy.yx = 0.5;
@@ -48,6 +55,8 @@ class SpritesetBattle extends SpritesetBase{
         this.sEnemy.x = this.width/2;
         this.sEnemy.y = this.height/4;
         this.sEnemy.z = 100;
+
+        this.sEnemyAction = new SpriteEnemyActions(this.width-400-this.battlerPadding, RV.System.Padding, this._viewport);
     }
 
     dispose() {
@@ -61,6 +70,7 @@ class SpritesetBattle extends SpritesetBase{
         for(let i=0; i<this.sBattlers.length; i++) {
             this.sBattlers[i].dispose();
         }
+        this.sSupporter.dispose();
         if(this.sBackground!=null) this.sBackground.disposeMin();
         if(this.sEnemy!=null) this.sEnemy.disposeMin();
         super.dispose();
@@ -77,21 +87,32 @@ class SpritesetBattle extends SpritesetBase{
         for(let i=0; i<this.sBattlers.length; i++) {
             this.sBattlers[i].update();
         }
+        this.sSupporter.update();
         this.updateBase();
     }
 
     updateBase() {
-        if(this.gameTemp.enemyDamage > 0 && !RV.GameData.Temp.waitingAnim) {
-            RV.GameData.Temp.waitingAnim = true;
+        // 敌方受击
+        if(this.gameBattle.enemyDamage > 0) {
+            this.gameBattle.enemyDamage = 0;
+            this.gameTemp.waitingAnim = true;
             let skill = this.gameTemp.actSkill;
             let _sf = this;
             this.playEnemyDamage(skill.animId, function() {
-                if(_sf.gameTemp.callback != null) _sf.gameTemp.callback();
                 _sf.gameTemp.waitingAnim = false;
             });
         }
-        if(this.gameTemp.partyDamage > 0 && !RV.GameData.Temp.waitingAnim) {
-            //todo: 我方承伤
+        // todo:我方受击
+        if(this.gameTemp.partyDamage > 0) {
+        }
+        // 换人选择
+        if (this.gameBattle.exchangeEnable) {
+            for(let i=0; i<this.sBattlers.length; i++) {
+                if(this.sBattlers[i].battler.isSelected()) {
+                    this.sSupporter.x = this.sBattlers[i].x;
+                    break;
+                }
+            }
         }
     }
 
@@ -123,9 +144,5 @@ class SpritesetBattle extends SpritesetBase{
 
     get gameBattle() {
         return RV.GameData.Battle;
-    }
-
-    get logic() {
-        return IVal.scene.logic;
     }
 }

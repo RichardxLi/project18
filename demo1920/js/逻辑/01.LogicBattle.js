@@ -4,14 +4,18 @@
  */
 class LogicBattle {
     // 数据设置
-    setup(id) {
-        this.gameBattle.enemyId = id;
-        this.gameBattle.init();
+    setup() {
+        this.gameBattle.init(RV.GameData.Temp.enemyId);
     }
 
     // 主状态机
     stateMain() {
-        if(this.gameTemp.waitingAnim) return;
+        if(this.gameTemp.waitingAnim || this.gameTemp.pauseState) return;
+
+        if(this.gameTemp.callback != null) {
+            this.gameTemp.callback();
+            return;
+        }
 
         switch (this.gameBattle.state) {
             case GameBattle.Init:
@@ -62,7 +66,9 @@ class LogicBattle {
             case GameBattle.TurnEndAbility:
                 this.turnEndAbility();
                 break;
-
+            case GameBattle.Exchange:
+                this.exchange();
+                break;
         }
     }
 
@@ -89,8 +95,7 @@ class LogicBattle {
 
     // 回合开始
     turnBegin() {
-        this.gameBattle.turn++;
-        this.gameBattle.log.push(`★ 第${this.gameBattle.turn}回合`);
+        this.gameBattle.newTurn();
 
         // todo: <先制>被动 进队列
 
@@ -277,8 +282,8 @@ class LogicBattle {
     // 我方技能结算
     doAct() {
         // todo: 计算伤害
-        let damage = 100;
-        this.gameTemp.enemyDamage = damage;
+        this.gameBattle.damage = 100;
+        this.gameBattle.enemyDamage = this.gameBattle.damage;
 
         // 设置回调
         this.gameTemp.callback = this.doActCallback
@@ -287,11 +292,9 @@ class LogicBattle {
     // 技能结算回调
     doActCallback() {
         let gameTemp = RV.GameData.Temp;
-        let gameEnemy = RV.GameData.Battle.enemy;
-
-        gameEnemy.damage(gameTemp.enemyDamage);
-
-        gameTemp.enemyDamage = 0;
+        let gameBattle = RV.GameData.Battle
+        let gameEnemy = gameBattle.enemy;
+        gameEnemy.doDamage(gameBattle.damage);
         gameTemp.callback = null;
         gameTemp.actSkill.wtDone = 0;
         gameTemp.actSkill = null;
@@ -299,9 +302,35 @@ class LogicBattle {
         gameTemp.actBattler = null;
     }
 
+    exchange() {
+        if(this.gameParty.supporter.isEmpty || this.gameParty.pt <= 0 || this.gameBattle.exchangeDone) {
+            this.gameBattle.state = GameBattle.Main;
+            return;
+        }
+
+        // 取消
+        if(RC.IsRightClick()) {
+            this.gameBattle.state = GameBattle.Main;
+            return;
+        }
+
+        // 确认
+        if(this.gameTemp.selectBattlerIndex >= 0) {
+            let t = this.gameParty.supporter;
+            this.gameParty.supporter = this.gameParty.battlers[this.gameTemp.selectBattlerIndex];
+            this.gameParty.battlers[this.gameTemp.selectBattlerIndex] = t;
+            this.gameParty.pt--;
+            this.gameBattle.state = GameBattle.Main;
+            this.gameBattle.exchangeDone = true;
+            this.gameTemp.selectBattlerIndex = -1;
+        }
+    }
+
     // 胜负判断
     // 1胜利 -1败北 0未分胜负
     judge() {
+        if(this.gameParty.lp <= 0) return -1;
+        if(this.gameEnemy.lp <= 0) return 1;
         return 0;
     }
 

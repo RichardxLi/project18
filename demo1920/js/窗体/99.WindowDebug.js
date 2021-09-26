@@ -107,7 +107,7 @@ class WindowDebug extends WindowBase {
     };
 
     setTemp() {
-        this.temp1();
+        //this.temp1();
         this.temp2();
     };
 
@@ -140,12 +140,9 @@ class WindowDebug extends WindowBase {
         let gameBattle = RV.GameData.Battle;
         let gameParty = gameBattle.party;
         let gameEnemy = gameBattle.enemy;
-        gameParty.damage(200);
-        gameEnemy.damage(200);
-        gameBattle.turn += 1;
+        // gameParty.doDamage(200);
+        // gameEnemy.doDamage(200);
+        // gameBattle.turn += 1;
         gameParty.pt += 1;
-
-        let b1 = gameParty.battlers[0];
-        b1.playingSkill = b1.skill1;
     }
 }

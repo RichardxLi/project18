@@ -58,11 +58,11 @@ class WindowBattleLogs extends WindowBase {
     };
 
     updateInput() {
-        if(this.sButton.isSelected() && IInput.up) {
-            IInput.up = false;
+        if(this.sButton.isSelected() && RC.IsLeftClick) {
             this.hide();
             this._wBattleLog.show();
             this._wBattleLog.active = true;
+            RV.GameData.Temp.pauseState = false;
         }
     };
 
