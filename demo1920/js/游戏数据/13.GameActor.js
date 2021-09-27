@@ -14,6 +14,9 @@ class GameActor {
         this.level = 0;
         this.abilitys = [this.class.ability, 0, 0, 0];
         this.skill = [];
+        for(let i=0; i<this.class.skills.length; i++) {
+            this.skill[i] = new GameSkill(this.class.skills[i]);
+        }
     }
 
     init(id) {
@@ -23,9 +26,8 @@ class GameActor {
             let i = rand(0, this.class.randAbility.length);
             this.abilitys[1] = this.class.randAbility[i];
         }
-        // 设置技能
         for(let i=0; i<this.class.skills.length; i++) {
-            this.skill[i] = new GameSkill(this.class.skills[i]);
+            this.skill[i].actorId = this.id;
         }
     }
 
@@ -83,7 +85,7 @@ class GameActor {
     }
 
     // 元素感染率
-    get eRateBase() {
+    get eRate() {
         let eRates = [0, 15, 20, 25, 30, 40];
         return eRates[this.level];
     }

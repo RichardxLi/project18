@@ -9,21 +9,24 @@ class GameSkill {
         this.animId = this.data.animId;
         this.type = this.data.type;
         this.ex = this.data.ex;
-        this.power = this.data.power; // 威力
         this.acc = this.data.acc; // 命中
         this.pt = this.data.pt; // 能量
-        this.wt = this.data.wt; // 时延
         this.eRatePlus = this.data.eRate; // 感染率
+
         this.wtDone = 0; // 已经过回合
+        this.actorId = 0; // 绑定角色
     }
 
-    reset() {
-        this.power = this.data.power;
-        this.acc = this.data.acc;
-        this.pt = this.data.pt;
-        this.wt = this.data.wt;
-        this.wtDone = 0;
-        this.eRatePlus = this.data.eRate;
+    // 威力
+    get power() {
+        // todo 被动修正 - <疾风迅雷> <厚积薄发>
+        return this.data.power;
+    }
+
+    // 时延
+    get wt() {
+        // todo 被动修正 - <疾风迅雷> <厚积薄发>
+        return this.data.wt;
     }
 
     get wtRemain() {
@@ -34,6 +37,10 @@ class GameSkill {
 
     get data() {
         return RD.Skill(this.id);
+    }
+
+    get actor() {
+        return RV.GameData.Player.actor(this.actorId);
     }
 }
 

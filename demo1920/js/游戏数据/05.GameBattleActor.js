@@ -10,6 +10,7 @@ class GameBattleActor {
         this.level = actor.level;
         this.hp = actor.hp;
         this.at = actor.at;
+        this.eRate = actor.eRate;
         this.element = actor.element;
         this.skill1 = actor.skill[1];
         this.skill2 = actor.skill[2];
@@ -24,11 +25,6 @@ class GameBattleActor {
         this.stun = false;
         this.boost = false;
         this.playingSkill = null;
-    }
-
-    get wt() {
-        if(this.playingSkill!=null) return this.playingSkill.wtRemain;
-        return 0;
     }
 
     get isEmpty() {

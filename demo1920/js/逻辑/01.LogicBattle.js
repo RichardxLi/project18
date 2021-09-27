@@ -167,7 +167,7 @@ class LogicBattle {
         if(this.gameTemp.actSkill == null) {
             for(let i=0; i<this.gameParty.battlers.length; i++) {
                 let b = this.gameParty.battlers[i];
-                if(b.playingSkill!=null && b.wt<=0) {
+                if(b.playingSkill!=null && b.playingSkill.wtRemain<=0) {
                     this.gameTemp.actSkill = b.playingSkill;
                     this.gameTemp.actBattler = b;
                     break;
@@ -219,26 +219,15 @@ class LogicBattle {
     }
 
     enemyQuickAct() {
-        // 当前无结算 取技能
-        if(this.gameTemp.actSkill == null) {
-            for(let i=0; i<this.gameParty.battlers.length; i++) {
-                let b = this.gameParty.battlers[i];
-                if(b.playingSkill!=null && b.wt<=0) {
-                    this.gameTemp.actSkill = b.playingSkill;
-                    this.gameTemp.actBattler = b;
-                    break;
-                }
-            }
-        }
+        // todo: 当前无结算 取技能
 
-        // 无可用技能
-        if(this.gameTemp.actSkill == null) {
+        // todo: 无可用技能
+        if(true) {
             this.gameBattle.state = GameBattle.Main;
             return;
         }
 
-        // 结算
-        this.doAct();
+        // todo: 结算
     }
 
     // 等待用户输入
@@ -250,23 +239,53 @@ class LogicBattle {
     }
 
     cast() {
-        this.gameTemp.selectBattler.playingSkill = this.gameTemp.selectSkill;
+        let b = this.gameTemp.selectBattler;
+        let s = this.gameTemp.selectSkill;
+
+        b.playingSkill = this.gameTemp.selectSkill;
+        // <活力> 增加PT
+        if(b.boost) {
+            b.boost = false;
+            this.gameParty.pt++;
+        }
+        // wt修正
+        s.wtDone -= this.gameParty.wtFix;
+        if(s.wtRemain == 0) {
+            this.gameBattle.zeroCast++;
+        }
+
         this.gameTemp.selectBattler = null;
         this.gameTemp.selectSkill = null;
         this.gameBattle.state = GameBattle.QuickAct;
     }
 
     quickAct() {
-        // todo: 当前无结算 取技能
+        // 当前无结算 取技能
+        if(this.gameTemp.actSkill == null) {
+            for(let i=0; i<this.gameParty.battlers.length; i++) {
+                let b = this.gameParty.battlers[i];
+                if(b.playingSkill!=null && b.playingSkill.wtRemain<=0) {
+                    this.gameTemp.actSkill = b.playingSkill;
+                    this.gameTemp.actBattler = b;
+                    break;
+                }
+            }
+        }
 
-        // todo: 无可用技能
-        if(true) {
-            this.gameBattle.state = GameBattle.TurnEnd;
+        // 无可用技能
+        if(this.gameTemp.actSkill == null) {
+            if(this.gameBattle.zeroCast == 1) {
+                // 当回合第1次使用0时延技能
+                this.gameBattle.state = GameBattle.Main;
+            } else {
+                this.gameBattle.zeroCast = 0;
+                this.gameBattle.state = GameBattle.TurnEnd;
+            }
             return;
         }
 
-        // todo: 结算
-
+        // 结算
+        this.doAct();
     }
 
     // 回合结束
@@ -369,6 +388,7 @@ class LogicBattle {
                 }
                 this.gameTemp.isHit = this.isHit(acc);
 
+                // 最终伤害
                 let damage = 0;
                 if(this.gameTemp.isHit) {
                     damage = this.comboRate()*fixedDamage;

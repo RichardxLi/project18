@@ -92,38 +92,56 @@ class SpritesetBattle extends SpritesetBase{
     }
 
     updateBase() {
-        // 敌方受击 todo: =0 debuff拆分
+        // 敌方受击
         if(this.gameTemp.enemyDamage >= 0) {
+            let damage = this.gameTemp.enemyDamage;
             this.gameTemp.enemyDamage = -1;
             this.gameTemp.waitingAnim = true;
             let skill = this.gameTemp.actSkill;
             let _sf = this;
-            this.playEnemyDamage(skill.animId, function() {
-                _sf.gameTemp.waitingAnim = false;
-            });
-            return;
-        }
-        // 我方受击 todo: =0 debuff拆分
-        if(this.gameTemp.partyDamage >= 0) {
-            this.gameTemp.partyDamage = -1;
-            this.gameTemp.waitingAnim = true;
-            let skill = this.gameTemp.actSkill;
-            let _sf = this;
-            this.playPartyDamage(skill.animId, function() {
+            this.playEnemyDamage(skill.animId, damage, function() {
                 _sf.gameTemp.waitingAnim = false;
             });
             return;
         }
         // 敌方治疗
         if(this.gameTemp.enemyHealing >= 0) {
-            // todo: 治疗&buff
+            let healing = this.gameTemp.enemyHealing;
+            this.gameTemp.enemyHealing = -1;
+            this.gameTemp.waitingAnim = true;
+            let skill = this.gameTemp.actSkill;
+            let _sf = this;
+            this.playPartyHealing(skill.animId, healing, function() {
+                _sf.gameTemp.waitingAnim = false;
+            });
+            return;
+        }
+
+        // 我方受击
+        if(this.gameTemp.partyDamage >= 0) {
+            let damage = this.gameTemp.partyDamage;
+            this.gameTemp.partyDamage = -1;
+            this.gameTemp.waitingAnim = true;
+            let skill = this.gameTemp.actSkill;
+            let _sf = this;
+            this.playPartyDamage(skill.animId, damage, function() {
+                _sf.gameTemp.waitingAnim = false;
+            });
             return;
         }
         // 我方治疗
         if(this.gameTemp.partyHealing >= 0) {
-            // todo: 治疗&buff
+            let healing = this.gameTemp.partyHealing;
+            this.gameTemp.partyHealing = -1;
+            this.gameTemp.waitingAnim = true;
+            let skill = this.gameTemp.actSkill;
+            let _sf = this;
+            this.playPartyHealing(skill.animId, healing, function() {
+                _sf.gameTemp.waitingAnim = false;
+            });
             return;
         }
+
         // 换人选择
         if (this.gameBattle.exchangeEnable) {
             for(let i=0; i<this.sBattlers.length; i++) {
@@ -136,18 +154,56 @@ class SpritesetBattle extends SpritesetBase{
         }
     }
 
-    playPartyDamage(id, endFunc=null) {
-        //todo: 伤害 未命中 伤害=0->debuff
+    playPartyDamage(id, damage, endFunc=null) {
+        //todo: 显示 - 伤害 命中
         let rect = new IRect(this.width/2, this.height/4*3, this.width/2, this.height/4*3);
         this.playAnim(id, rect, endFunc);
-        this.flashParty(IColor.Red(), 24);
+        if(damage == 0) {
+            // debuff
+            this.flashParty(IColor.Black(), 24);
+        } else {
+            // damage
+            this.flashParty(IColor.Red(), 24);
+        }
     }
 
-    playEnemyDamage(id, endFunc=null) {
-        //todo: 伤害 未命中 伤害=0->debuff
+    playPartyHealing(id, healing, endFunc=null) {
+        //todo: 显示 - 治疗量
+        let rect = new IRect(this.width/2, this.height/4*3, this.width/2, this.height/4*3);
+        this.playAnim(id, rect, endFunc);
+        if(healing == 0) {
+            // buff
+            this.flashParty(IColor.white(), 24);
+        } else {
+            // healing
+            this.flashParty(IColor.Green(), 24);
+        }
+    }
+
+    playEnemyDamage(id, damage, endFunc=null) {
+        //todo: 显示 - 伤害 命中
         let rect = new IRect(this.width/2, this.height/4, this.width/2, this.height/4);
         this.playAnim(id, rect, endFunc);
-        this.flashEnemy(IColor.Red(), 24);
+        if(damage == 0) {
+            // debuff
+            this.flashEnemy(IColor.Black(), 24);
+        } else {
+            // damage
+            this.flashEnemy(IColor.Red(), 24);
+        }
+    }
+
+    playEnemyHealing(id, healing, endFunc=null) {
+        //todo: 显示 - 治疗量
+        let rect = new IRect(this.width/2, this.height/4, this.width/2, this.height/4);
+        this.playAnim(id, rect, endFunc);
+        if(healing == 0) {
+            // buff
+            this.flashEnemy(IColor.white(), 24);
+        } else {
+            // healing
+            this.flashEnemy(IColor.Green(), 24);
+        }
     }
 
     flashParty(color, frame) {

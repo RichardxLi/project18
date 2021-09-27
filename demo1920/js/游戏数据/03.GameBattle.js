@@ -12,6 +12,7 @@ class GameBattle {
 
         this.state = 0; // 状态机
         this.damage = 0; // 当前结算伤害
+        this.zeroCast = 0; // 本回合0时延技能使用次数
 
         this.exchangeDone = false; // 本回合已换人
     }

@@ -10,7 +10,7 @@ class GamePlayer {
 
         this.partyName = "玩家队伍";
         this.damage = 0; // 当前承受伤害
-        this.level = 1; // 难度等级
+        //this.level = 1;
         this.battlerNum = 3; // 主战者数量
     }
 
@@ -29,18 +29,22 @@ class GamePlayer {
         if(this._supporterId == id) {
             this._supporterId = 0;
         }
+        this._members[id] = null;
     }
 
     actor(id) {
+        if(id >= this._members.length) return this._members[0];
+        if(this._members[id]==null) return this._members[0];
+
         return this._members[id];
     }
 
     battler(index) {
-        return this._members[this._battlerIds[index]];
+        return this.actor([this._battlerIds[index]]);
     }
 
     supporter() {
-        return this._members[this._supporterId];
+        return this.actor([this._supporterId]);
     }
 
     setBattler(index, id) {

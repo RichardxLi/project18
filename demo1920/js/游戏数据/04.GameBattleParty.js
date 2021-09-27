@@ -37,13 +37,13 @@ class GameBattleParty {
 
     // 攻击增强
     get atPlus() {
-        // 被动 - 攻击指挥
+        // todo 被动 - 攻击指挥
         return 1;
     }
 
     // 元素增伤
     ePlus(elementId) {
-        // 被动 - 元素强击
+        // todo 被动 - 元素强击
         return 0;
     }
 
@@ -55,7 +55,7 @@ class GameBattleParty {
 
     // 治疗增益
     get healPlus() {
-        // 被动 - 治疗修正
+        // todo 被动 - 治疗修正
         return 0;
     }
 
@@ -65,7 +65,7 @@ class GameBattleParty {
     }
 
     get baseAcc() {
-        // 被动 - 命中指挥
+        // todo 被动 - 命中指挥
         return 0;
     }
 
@@ -80,7 +80,7 @@ class GameBattleParty {
     }
 
     get baseEva() {
-        // 被动 - 闪避指挥
+        // todo 被动 - 闪避指挥
         return 0;
     }
 
@@ -95,7 +95,7 @@ class GameBattleParty {
     }
 
     get baseDef() {
-        // 被动 - 防御指挥
+        // todo 被动 - 防御指挥
         return 0;
     }
 
@@ -110,12 +110,18 @@ class GameBattleParty {
     }
 
     baseEDef(elementId) {
-        // 被动 - 元素抵抗
+        // todo 被动 - 元素抵抗
         return 0;
     }
 
     eDefPlus(elementId) {
         // 状态 - 元素抵抗
+        return 0;
+    }
+
+    // 时延修正 正数延后 负数提前
+    get wtFix() {
+        // 状态 - 时延
         return 0;
     }
 
