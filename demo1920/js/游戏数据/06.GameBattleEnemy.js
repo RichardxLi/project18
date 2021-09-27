@@ -19,8 +19,6 @@ class GameBattleEnemy {
     setup(id) {
         if(id==0) {
             this.setDemo();
-            this.name = "小陈同学";
-            this.picture = "boss.png";
             return;
         }
         this.dataId = id;
@@ -29,6 +27,78 @@ class GameBattleEnemy {
     setDemo() {
         this.lp = 1000;
         this.maxLp = 1000;
+        this.name = "小陈同学";
+        this.picture = "boss.png";
+    }
+
+    // 威力增强
+    get powerPlus() {
+        // 状态 - 威力
+        return 0;
+    }
+
+    // 命中
+    get acc() {
+        return this.baseAcc + this.accPlus;
+    }
+
+    get baseAcc() {
+        // 数据库命中修正
+        return 0;
+    }
+
+    get accPlus() {
+        // 状态 - 命中
+        return 0;
+    }
+
+    // 闪避
+    get eva() {
+        return this.baseEva + this.evaPlus;
+    }
+
+    get baseEva() {
+        // 数据库闪避修正
+        return 0;
+    }
+
+    get evaPlus() {
+        // 状态 - 闪避
+        return 0;
+    }
+
+    // 抵抗
+    get def() {
+        return this.baseDef + this.defPlus;
+    }
+
+    get baseDef() {
+        // 数据库防御修正
+        return 0;
+    }
+
+    get defPlus() {
+        // 状态 - 抵抗
+        return 0;
+    }
+
+    // 元素抵抗
+    eDef(elementId) {
+        return this.baseEDef(elementId) + this.eDefPlus(elementId);
+    }
+
+    baseEDef(elementId) {
+        // 默认为0
+        return 0;
+    }
+
+    eDefPlus(elementId) {
+        // 状态 - 元素抵抗
+        return 0;
+    }
+
+    get data() {
+        // todo:数据库
     }
 
     // 伤害

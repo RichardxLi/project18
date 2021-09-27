@@ -47,7 +47,7 @@ let _DataSkill = [
     {id:15, name:"蓄力攻击2", icon:"", power:60, acc:95, wt:3, pt:0, type:0, eRate:0, buff:[], debuff:[], ex:0, desc:"时延3攻击模板", animId:22},
     {id:16, name:"快速攻击1", icon:"", power:10, acc:90, wt:0, pt:0, type:0, eRate:0, buff:[], debuff:[], ex:0, desc:"时延0攻击模板", animId:22},
     {id:17, name:"元素攻击1", icon:"", power:30, acc:95, wt:1, pt:0, type:0, eRate:50, buff:[], debuff:[], ex:0, desc:"元素感染攻击模板", animId:22},
-    {id:18, name:"治疗1", icon:"", power:20, acc:-1, wt:1, pt:0, type:1, eRate:0, buff:[], debuff:[], ex:0, desc:"基础治疗模板", animId:22},
-    {id:19, name:"治疗2", icon:"", power:35, acc:-1, wt:2, pt:0, type:1, eRate:0, buff:[], debuff:[], ex:0, desc:"时延2治疗模板", animId:22},
-    {id:20, name:"治疗3", icon:"", power:9, acc:-1, wt:3, pt:0, type:1, eRate:0, buff:[], debuff:[], ex:2, desc:"百分比治疗模板", animId:22},
+    {id:18, name:"治疗1", icon:"", power:20, acc:-1, wt:1, pt:0, type:1, eRate:0, buff:[], debuff:[], ex:0, desc:"基础治疗模板", animId:6},
+    {id:19, name:"治疗2", icon:"", power:35, acc:-1, wt:2, pt:0, type:1, eRate:0, buff:[], debuff:[], ex:0, desc:"时延2治疗模板", animId:6},
+    {id:20, name:"治疗3", icon:"", power:9, acc:-1, wt:3, pt:0, type:1, eRate:0, buff:[], debuff:[], ex:2, desc:"百分比治疗模板", animId:6},
 ];

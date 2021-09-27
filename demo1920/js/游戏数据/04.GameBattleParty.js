@@ -38,12 +38,18 @@ class GameBattleParty {
     // 攻击增强
     get atPlus() {
         // 被动 - 攻击指挥
-        return 0;
+        return 1;
     }
 
     // 元素增伤
     ePlus(elementId) {
         // 被动 - 元素强击
+        return 0;
+    }
+
+    // 威力增强
+    get powerPlus() {
+        // 状态 - 威力
         return 0;
     }
 
@@ -83,7 +89,7 @@ class GameBattleParty {
     }
 
     get baseDef() {
-        // 被动 - 抵抗指挥
+        // 被动 - 防御指挥
         return 0;
     }
 

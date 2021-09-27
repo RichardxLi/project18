@@ -343,36 +343,54 @@ class LogicBattle {
     // 我方技能结算
     doAct() {
         let a = this.gameTemp.actBattler;
+        let p = this.gameParty;
         let d = this.gameBattle.enemy;
         let s = this.gameTemp.actSkill;
-        let at = parseInt(a.at * (100+this.gameParty.atPlus) / 100);
-        let baseDamage = parseInt(at * s.power / 20);
+        let e = a.element;
+        let at = a.at * (100+p.atPlus) / 100;
+        let baseDamage = at * (s.power+p.powerPlus) / 20;
+        let minDamage = 0.05*baseDamage;
 
         switch (s.type) {
             case GameSkill.Type.ATTACK:
-                // 修正伤害
+                // 修正计算
+                let elementRate = (100 + this.gameParty.ePlus(e.id)) / 100; // 被动提供的元素易伤
+                let dmgRate = this.dmgRateWithDebuffs(d.debuffs, e.id); // 目标debuff提供的易伤
+                let defRate = this.defRateWithDebuffs(d.buffs, e.id); // 目标buff提供的抵抗
+                let fixedDamage = baseDamage * elementRate * dmgRate * (100 - defRate) / 100; // 修正伤害
+                if(fixedDamage < minDamage) fixedDamage = minDamage;
 
-                // 命中
+                // 命中计算
+                let acc = 100;
+                if(s.acc >= 0) {
+                    acc = s.acc + p.acc - d.eva;
+                    if(acc < 0) acc = 0;
+                }
+                this.gameTemp.isHit = this.isHit(acc);
 
-                // combo
+                let damage = 0;
+                if(this.gameTemp.isHit) {
+                    damage = this.comboRate()*fixedDamage;
+                } else {
+                    damage = 0.1*baseDamage;
+                    if(damage > fixedDamage) {
+                        damage = fixedDamage;
+                    }
+                }
+
+                // 设置伤害
+                if(damage<=0) damage = 1;
+                this.gameBattle.damage = parseInt(damage);
+                this.gameTemp.enemyDamage = this.gameBattle.damage;
+                this.gameTemp.callback = this.enemyDamageCallback
                 break;
             case GameSkill.Type.Heal:
-
                 break;
             case GameSkill.Type.Buff:
                 break;
             case GameSkill.Type.Debuff:
                 break;
         }
-
-
-        this.gameBattle.damage = 0;
-
-        // 计算伤害
-        this.gameBattle.enemyDamage = this.gameBattle.damage;
-
-        // 设置回调
-        this.gameTemp.callback = this.enemyDamageCallback
     }
 
     // 敌人承伤回调
@@ -381,8 +399,10 @@ class LogicBattle {
         let gameBattle = RV.GameData.Battle
         let gameEnemy = gameBattle.enemy;
         gameEnemy.doDamage(gameBattle.damage);
-        gameBattle.party.combo++;
-        // todo: 状态
+        if(gameTemp.isHit) {
+            gameBattle.party.combo++;
+            // todo: 附加状态
+        }
         gameTemp.callback = null;
         gameTemp.actSkill.wtDone = 0;
         gameTemp.actSkill = null;
@@ -390,7 +410,28 @@ class LogicBattle {
         gameTemp.actBattler = null;
     }
 
-    isHit() {
-        return true;
+    // debuff提供的伤害易伤
+    dmgRateWithDebuffs(debuffs, elementId) {
+
+    }
+
+    // buff提供的伤害抵抗
+    defRateWithDebuffs(buffs, elementId) {
+
+    }
+
+    // 命中判定
+    isHit(acc) {
+        return acc > rand(0,99);
+    }
+
+    // 连击倍率
+    comboRate() {
+        let rate = 100;
+        for(let i=0; i<this.gameBattle.party.combo; i++) {
+            rate += 20+i*10;
+        }
+        if(rate>300) rate = 300;
+        return rate / 100;
     }
 }

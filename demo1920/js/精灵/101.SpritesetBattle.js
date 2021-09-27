@@ -92,7 +92,7 @@ class SpritesetBattle extends SpritesetBase{
     }
 
     updateBase() {
-        // 敌方受击
+        // 敌方受击 todo: =0 debuff拆分
         if(this.gameTemp.enemyDamage >= 0) {
             this.gameTemp.enemyDamage = -1;
             this.gameTemp.waitingAnim = true;
@@ -103,7 +103,7 @@ class SpritesetBattle extends SpritesetBase{
             });
             return;
         }
-        // 我方受击
+        // 我方受击 todo: =0 debuff拆分
         if(this.gameTemp.partyDamage >= 0) {
             this.gameTemp.partyDamage = -1;
             this.gameTemp.waitingAnim = true;
@@ -143,11 +143,27 @@ class SpritesetBattle extends SpritesetBase{
         this.flashParty(IColor.Red(), 24);
     }
 
+    playPartyBuff(id, endFunc=null) {
+
+    }
+
+    playPartyDebuff(id, endFunc=null) {
+
+    }
+
     playEnemyDamage(id, endFunc=null) {
         //todo: 伤害 未命中 伤害=0（debuff)
         let rect = new IRect(this.width/2, this.height/4, this.width/2, this.height/4);
         this.playAnim(id, rect, endFunc);
-        this.flashEnemy(IColor.White(), 24);
+        this.flashEnemy(IColor.Red(), 24);
+    }
+
+    playEnemyBuff() {
+
+    }
+
+    playEnemyDebuff() {
+
     }
 
     flashParty(color, frame) {
