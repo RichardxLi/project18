@@ -299,6 +299,7 @@ class LogicBattle {
 
         // 取消
         if(RC.IsRightClick()) {
+            IInput.up = false;
             this.gameBattle.state = GameBattle.Main;
             return;
         }
@@ -357,7 +358,7 @@ class LogicBattle {
                 let elementRate = (100 + this.gameParty.ePlus(e.id)) / 100; // 被动提供的元素易伤
                 let dmgRate = this.dmgRateWithDebuffs(d.debuffs, e.id); // 目标debuff提供的易伤
                 let defRate = this.defRateWithDebuffs(d.buffs, e.id); // 目标buff提供的抵抗
-                let fixedDamage = baseDamage * elementRate * dmgRate * (100 - defRate) / 100; // 修正伤害
+                let fixedDamage = baseDamage * elementRate * dmgRate * defRate; // 修正伤害
                 if(fixedDamage < minDamage) fixedDamage = minDamage;
 
                 // 命中计算
@@ -396,13 +397,19 @@ class LogicBattle {
     // 敌人承伤回调
     enemyDamageCallback() {
         let gameTemp = RV.GameData.Temp;
-        let gameBattle = RV.GameData.Battle
-        let gameEnemy = gameBattle.enemy;
-        gameEnemy.doDamage(gameBattle.damage);
+        let gameBattle = RV.GameData.Battle;
+        let a = gameTemp.actBattler;
+        let d = gameBattle.enemy;
+        let s = gameTemp.actSkill;
+
+        d.doDamage(gameBattle.damage);
+        gameBattle.log.push(GameBattle.Log.Damage(a.name, s.name, gameBattle.damage));
+
         if(gameTemp.isHit) {
             gameBattle.party.combo++;
             // todo: 附加状态
         }
+
         gameTemp.callback = null;
         gameTemp.actSkill.wtDone = 0;
         gameTemp.actSkill = null;
@@ -410,14 +417,16 @@ class LogicBattle {
         gameTemp.actBattler = null;
     }
 
-    // debuff提供的伤害易伤
+    // debuff提供的伤害易伤 增益后倍率
     dmgRateWithDebuffs(debuffs, elementId) {
-
+        // todo:
+        return 1;
     }
 
-    // buff提供的伤害抵抗
+    // buff提供的伤害抵抗 减免后所剩倍率
     defRateWithDebuffs(buffs, elementId) {
-
+        // todo:
+        return 1;
     }
 
     // 命中判定

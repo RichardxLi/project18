@@ -18,7 +18,7 @@ class GameBattle {
 
     newTurn() {
         this.turn++;
-        this.log.push(`★ 第${this.turn}回合`);
+        this.log.push(GameBattle.Log.TurnBegin(this.turn));
         this.exchangeDone = false;
     }
 
@@ -32,8 +32,7 @@ class GameBattle {
 
         this.state = GameBattle.Init;
         this.damage = 0;
-        this.partyDamage = 0;
-        this.enemyDamage = 0;
+        this.exchangeDone = false;
     }
 
     // 允许技能输入
@@ -70,3 +69,13 @@ GameBattle.Exchange = 403;
 GameBattle.ExchangeProcess = 404;
 GameBattle.TurnEnd = 500;
 GameBattle.TurnEndAbility = 501;
+
+GameBattle.Log = {};
+// 回合开始
+GameBattle.Log.TurnBegin = function(turn) {
+    return `★ 第${turn}回合`;
+}
+// 技能造成伤害
+GameBattle.Log.Damage = function(attacker, skill, damage) {
+    return `\c3${attacker}\c0->\c4${skill}\c0造成\c3${damage}\c0伤害`;
+}

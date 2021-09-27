@@ -53,6 +53,12 @@ class GameBattleParty {
         return 0;
     }
 
+    // 治疗增益
+    get healPlus() {
+        // 被动 - 治疗修正
+        return 0;
+    }
+
     // 命中
     get acc() {
         return this.baseAcc + this.accPlus;

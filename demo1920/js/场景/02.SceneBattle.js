@@ -48,10 +48,11 @@ class SceneBattle extends SceneBase {
         }
 
         this.wLog.update();
+
+        if(RV.GameData.Temp.pauseSpriteset) return;
         this.spriteset.update();
         this.updateMenu();
         this.logic.stateMain();
-        IInput.up = false;
     };
 
     updateMenu() {

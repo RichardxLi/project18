@@ -66,7 +66,8 @@ class WindowSelect extends WindowBase {
                 this._processOK();
             }
         }
-        if(IInput.up && IInput.mouseButton==1) {
+        if(RC.IsRightClick()) {
+            IInput.up = false;
             this._processRightClick();
         }
     };

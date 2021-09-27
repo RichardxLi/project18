@@ -72,8 +72,8 @@ class WindowDebug extends WindowBase {
     updateInput() {
         // 鼠标抬起
         if(IInput.up) {
-            this.updateMouseUp();
             IInput.up = false;
+            this.updateMouseUp();
         }
     };
 

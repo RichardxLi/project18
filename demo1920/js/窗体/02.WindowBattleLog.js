@@ -48,11 +48,12 @@ class WindowBattleLog extends WindowBase {
     };
 
     updateInput() {
-        if(this.sButton.isSelected() && RC.IsLeftClick) {
+        if(this.sButton.isSelected() && RC.IsLeftClick()) {
+            IInput.up = false;
             this.hide();
             this.wBattleLogs.show();
             this.wBattleLogs.active = true;
-            RV.GameData.Temp.pauseState = true;
+            RV.GameData.Temp.pauseSpriteset = true;
         }
     };
 }

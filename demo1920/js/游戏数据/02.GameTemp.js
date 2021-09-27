@@ -9,6 +9,7 @@ class GameTemp {
         this.wait = 0; // 等待帧
         this.waitingAnim = false; // 等待动画播放完毕
         this.pauseState = false; // 暂停逻辑状态机
+        this.pauseSpriteset = false; // 暂停主画面
         this.selectMenu = -1; // 菜单选项
 
         this.selectSkill = null; // 选中技能
@@ -30,13 +31,13 @@ class GameTemp {
         this.waitingAnim = false;
         this.pauseState = false;
         this.selectMenu = -1;
+        this.pauseSpriteset = false;
         this.selectSkill = null;
         this.selectBattler = null;
         this.selectBattlerIndex = -1;
         this.actSkill = null;
         this.actBattler = null;
         this.callback = null;
-
         this.partyDamage = -1;
         this.enemyDamage = -1;
         this.partyHealing = -1;

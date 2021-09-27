@@ -29,6 +29,7 @@ class SpriteSkill extends IButton{
 
     updateInput() {
         if (RC.IsLeftClick() && this.isSelected() && this.getEnable()) {
+            IInput.up = false;
             this.gameTemp.selectSkill = this.gameSkill;
             this.gameTemp.selectBattler = this.gameBattler;
         }

@@ -94,6 +94,7 @@ class SpriteBattler {
         if(!this.gameBattle.exchangeEnable) return;
 
         if(RC.IsLeftClick() && this.battler.isSelected()) {
+            IInput.up = false;
             this.gameTemp.selectBattlerIndex = this.index;
         }
     }

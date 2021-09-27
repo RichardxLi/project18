@@ -34,6 +34,7 @@ class SpriteBattleMenu {
         for(let i=0; i<this.buttons.length; i++) {
             this.buttons[i].update();
             if(this.buttons[i].isLeftClick()) {
+                IInput.up = false;
                 this.gameTemp.selectMenu = i;
             }
         }

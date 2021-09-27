@@ -137,33 +137,17 @@ class SpritesetBattle extends SpritesetBase{
     }
 
     playPartyDamage(id, endFunc=null) {
-        //todo: 伤害 未命中 伤害=0（debuff)
+        //todo: 伤害 未命中 伤害=0->debuff
         let rect = new IRect(this.width/2, this.height/4*3, this.width/2, this.height/4*3);
         this.playAnim(id, rect, endFunc);
         this.flashParty(IColor.Red(), 24);
     }
 
-    playPartyBuff(id, endFunc=null) {
-
-    }
-
-    playPartyDebuff(id, endFunc=null) {
-
-    }
-
     playEnemyDamage(id, endFunc=null) {
-        //todo: 伤害 未命中 伤害=0（debuff)
+        //todo: 伤害 未命中 伤害=0->debuff
         let rect = new IRect(this.width/2, this.height/4, this.width/2, this.height/4);
         this.playAnim(id, rect, endFunc);
         this.flashEnemy(IColor.Red(), 24);
-    }
-
-    playEnemyBuff() {
-
-    }
-
-    playEnemyDebuff() {
-
     }
 
     flashParty(color, frame) {
