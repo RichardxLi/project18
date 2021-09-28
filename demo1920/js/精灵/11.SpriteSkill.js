@@ -19,6 +19,7 @@ class SpriteSkill extends IButton{
     updateBase() {
         this.drawTitleQ(this.gameSkill.name, IColor.White(), this.fontSize);
         let s = this.getSprite();
+        s.clearBitmap();
         s.drawTextQ(this.gameSkill.wt, 254, 8, IColor.Blue(), this.fontSize-4);
         if(this.gameSkill.pt>0) {
             s.drawTextQ(this.gameSkill.pt, 6, 8, IColor.Red(), this.fontSize-4);

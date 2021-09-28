@@ -68,18 +68,33 @@ GameBattle.EnemyCast = 300;
 GameBattle.EnemyQuickAct = 301;
 GameBattle.Main = 400;
 GameBattle.Cast = 401;
-GameBattle.QuickAct = 402;
+GameBattle.CastProcess = 402;
 GameBattle.Exchange = 403;
 GameBattle.ExchangeProcess = 404;
-GameBattle.TurnEnd = 500;
-GameBattle.TurnEndAbility = 501;
+GameBattle.QuickAct = 500;
+GameBattle.TurnEnd = 600;
+GameBattle.TurnEndAbility = 601;
 
 GameBattle.Log = {};
 // 回合开始
 GameBattle.Log.TurnBegin = function(turn) {
-    return `★ 第${turn}回合`;
+    return `★ 回合${turn}`;
 }
-// 技能造成伤害
-GameBattle.Log.Damage = function(attacker, skill, damage) {
-    return `\c3${attacker}\c0->\c4${skill}\c0造成\c3${damage}\c0伤害`;
+// 技能伤害
+GameBattle.Log.Damage = function(attacker, skill, number) {
+    let txt = `\c3${attacker}\c0->\c4${skill}`;
+    if(number>0) {
+        txt += `\c0:\c3${number}`;
+    }
+    return txt;
 }
+
+// 技能回复
+GameBattle.Log.Heal = function(healer, skill, number) {
+    let txt = `\c3${healer}\c0->\c4${skill}`;
+    if(number>0) {
+        txt += `\c0:\c5${number}`
+    }
+    return txt;
+}
+

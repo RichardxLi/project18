@@ -144,7 +144,9 @@ class GameBattleParty {
     // 换人
     exchange(index) {
         let t = this.battlers[index];
+        t.reset();
         this.battlers[index] = this.supporter;
+        this.battlers[index].reset();
         this.supporter = t;
     }
 

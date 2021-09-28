@@ -140,8 +140,8 @@ class WindowDebug extends WindowBase {
         let gameBattle = RV.GameData.Battle;
         let gameParty = gameBattle.party;
         let gameEnemy = gameBattle.enemy;
-        // gameParty.doDamage(200);
-        // gameEnemy.doDamage(200);
+        gameParty.doDamage(200);
+        gameEnemy.doHeal(200);
         // gameBattle.turn += 1;
         gameParty.pt += 1;
     }

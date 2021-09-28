@@ -39,9 +39,19 @@ class LogicBattleAct {
                 break;
             }
             case GameSkill.Type.Buff: {
+                // 设置buff 治疗=0
+                this.gameBattle.healing = 0;
+                this.gameTemp.partyHealing = this.gameBattle.healing;
+                this.gameTemp.callback = this.partyHealedCallback;
                 break;
             }
             case GameSkill.Type.Debuff: {
+                // 命中计算
+                this.makeBattlerHit();
+                // 设置debuff 伤害=0
+                this.gameBattle.damage = 0;
+                this.gameTemp.enemyDamage = this.gameBattle.healing;
+                this.gameTemp.callback = this.enemyDamagedCallback;
                 break;
             }
         }
@@ -58,12 +68,7 @@ class LogicBattleAct {
         if (fixedDamage < this.minDamage) fixedDamage = this.minDamage;
 
         // 命中计算
-        let acc = 100;
-        if (this.s.acc >= 0) {
-            acc = this.s.acc + this.p.acc - this.d.eva;
-            if (acc < 0) acc = 0;
-        }
-        this.gameTemp.isHit = this.isHit(acc);
+        this.makeBattlerHit();
 
         // 最终伤害
         let damage = 0;
@@ -79,6 +84,15 @@ class LogicBattleAct {
         return damage;
     }
 
+    makeBattlerHit() {
+        let acc = 100;
+        if (this.s.acc >= 0) {
+            acc = this.s.acc + this.p.acc - this.d.eva;
+            if (acc < 0) acc = 0;
+        }
+        this.gameTemp.isHit = this.isHit(acc);
+    }
+
     // 敌人承伤回调
     enemyDamagedCallback() {
         let gameTemp = RV.GameData.Temp;
@@ -88,11 +102,13 @@ class LogicBattleAct {
         let s = gameTemp.actSkill;
         gameBattle.log.push(GameBattle.Log.Damage(a.name, s.name, gameBattle.damage));
 
+        d.doDamage(gameBattle.damage);
         if(gameTemp.isHit) {
             gameBattle.party.combo++;
-            // todo: 附加状态
+            // todo: 附加状态 队伍&敌人
         }
 
+        // 结算清空
         gameTemp.callback = null;
         gameTemp.actSkill.wtDone = 0;
         gameTemp.actSkill = null;
@@ -102,12 +118,31 @@ class LogicBattleAct {
 
     // 队伍治疗回调
     partyHealedCallback() {
-        // todo:
+        let gameTemp = RV.GameData.Temp;
+        let gameBattle = RV.GameData.Battle;
+        let h = gameTemp.actBattler;
+        let s = gameTemp.actSkill;
+        gameBattle.log.push(GameBattle.Log.Heal(h.name, s.name, gameBattle.healing));
+
+        if(gameBattle.healing > 0) {
+            gameBattle.party.doHeal(gameBattle.healing);
+            // todo: 随机清除debuff
+        }
+
+        // todo:附加状态 队伍
+
+        // 结算清空
+        gameTemp.callback = null;
+        gameTemp.actSkill.wtDone = 0;
+        gameTemp.actSkill = null;
+        gameTemp.actBattler.playingSkill = null;
+        gameTemp.actBattler = null;
     }
 
     // 特殊效果结算
     // @return 是否继续一般结算
     specialAct(ex) {
+        // todo
         switch (ex) {
             case GameSkill.Ex.Win:
                 break;

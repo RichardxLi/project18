@@ -13,9 +13,29 @@ class LogicBattle {
         this.gameBattle.init(RV.GameData.Temp.enemyId);
     }
 
+    // 菜单事件
+    updateMenu() {
+        switch (this.gameTemp.selectMenu) {
+            case 0:
+                // 跳过
+                this.gameBattle.state = GameBattle.TurnEnd;
+                break;
+            case 1:
+                // 换人
+                this.gameBattle.state = GameBattle.Exchange;
+                break;
+            case 2:
+                IVal.scene.goto(new SceneBattle());
+                break;
+            case 3:
+            case 4:
+        }
+        RV.GameData.Temp.selectMenu = -1;
+    }
+
     // 主状态机
+    // 当前为一段式，后续增加"时点"重构成二段式，提升动画灵活性
     stateMain() {
-        log(this.gameBattle.state);
         if(this.gameTemp.waitingAnim || this.gameTemp.pauseState) return;
 
         if(this.gameTemp.callback != null) {
@@ -62,6 +82,9 @@ class LogicBattle {
                 break;
             case GameBattle.Cast:
                 this.cast();
+                break;
+            case GameBattle.CastProcess:
+                this.castProcess();
                 break;
             case GameBattle.QuickAct:
                 this.quickAct();
@@ -252,6 +275,13 @@ class LogicBattle {
         b.playingSkill = this.gameTemp.selectSkill;
         // 消耗PT
         this.gameParty.pt -= s.pt;
+        this.gameBattle.state = GameBattle.CastProcess;
+
+    }
+
+    castProcess() {
+        let b = this.gameTemp.selectBattler;
+        let s = this.gameTemp.selectSkill;
 
         // <活力> 增加PT
         if(b.boost) {
@@ -272,6 +302,7 @@ class LogicBattle {
         this.gameTemp.selectSkill = null;
         this.gameBattle.state = GameBattle.QuickAct;
     }
+
 
     quickAct() {
         // 当前无结算 取技能
@@ -337,10 +368,8 @@ class LogicBattle {
 
         // 确认
         if(this.gameTemp.selectBattlerIndex >= 0) {
-            let t = this.gameParty.supporter;
-            this.gameParty.supporter = this.gameParty.battlers[this.gameTemp.selectBattlerIndex];
-            this.gameParty.battlers[this.gameTemp.selectBattlerIndex] = t;
             this.gameParty.pt--;
+            this.gameParty.exchange(this.gameTemp.selectBattlerIndex);
             this.gameBattle.state = GameBattle.Main;
             this.gameBattle.exchangeDone = true;
             this.gameTemp.selectBattlerIndex = -1;

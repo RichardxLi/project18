@@ -51,24 +51,7 @@ class SceneBattle extends SceneBase {
 
         if(RV.GameData.Temp.pauseSpriteset) return;
         this.spriteset.update();
-        this.updateMenu();
+        this.logic.updateMenu();
         this.logic.stateMain();
     };
-
-    updateMenu() {
-        switch (RV.GameData.Temp.selectMenu) {
-            case 0:
-                // 跳过
-                RV.GameData.Battle.state = GameBattle.TurnEnd;
-                break;
-            case 1:
-                // 换人
-                RV.GameData.Battle.state = GameBattle.Exchange;
-                break;
-            case 2:
-            case 3:
-            case 4:
-        }
-        RV.GameData.Temp.selectMenu = -1;
-    }
 }
