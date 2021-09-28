@@ -3,6 +3,10 @@
  * 封装运算单元，管理战斗流程
  */
 class LogicBattle {
+    constructor() {
+        this.lAct = new LogicBattleAct();
+    }
+
     // 数据设置
     setup() {
         this.gameTemp.resetBattle();
@@ -11,6 +15,7 @@ class LogicBattle {
 
     // 主状态机
     stateMain() {
+        log(this.gameBattle.state);
         if(this.gameTemp.waitingAnim || this.gameTemp.pauseState) return;
 
         if(this.gameTemp.callback != null) {
@@ -100,6 +105,8 @@ class LogicBattle {
 
         // todo: <先制>被动 进队列
 
+        // todo: <中毒>进队列
+
         this.gameBattle.state = GameBattle.TurnBeginAbility;
     }
 
@@ -119,7 +126,7 @@ class LogicBattle {
 
     // <中毒>处理
     turnBeginStatus() {
-        //todo:
+        // todo: 取双方中毒状态
 
         // todo: 无可用状态
         if(true) {
@@ -167,7 +174,7 @@ class LogicBattle {
         if(this.gameTemp.actSkill == null) {
             for(let i=0; i<this.gameParty.battlers.length; i++) {
                 let b = this.gameParty.battlers[i];
-                if(b.playingSkill!=null && b.playingSkill.wtRemain<=0) {
+                if(b.playingSkill!=null && b.playingSkill.remainWt<=0) {
                     this.gameTemp.actSkill = b.playingSkill;
                     this.gameTemp.actBattler = b;
                     break;
@@ -182,7 +189,7 @@ class LogicBattle {
         }
 
         // 结算
-        this.doAct();
+        this.lAct.battlerAct();
     }
 
     // 敌人技能结算
@@ -243,6 +250,9 @@ class LogicBattle {
         let s = this.gameTemp.selectSkill;
 
         b.playingSkill = this.gameTemp.selectSkill;
+        // 消耗PT
+        this.gameParty.pt -= s.pt;
+
         // <活力> 增加PT
         if(b.boost) {
             b.boost = false;
@@ -250,9 +260,13 @@ class LogicBattle {
         }
         // wt修正
         s.wtDone -= this.gameParty.wtFix;
-        if(s.wtRemain == 0) {
+        // 行动数+1
+        if(s.remainWt==0 && this.gameBattle.zeroCast==0) {
             this.gameBattle.zeroCast++;
+        } else {
+            this.gameParty.act++;
         }
+        b.played = true;
 
         this.gameTemp.selectBattler = null;
         this.gameTemp.selectSkill = null;
@@ -262,9 +276,9 @@ class LogicBattle {
     quickAct() {
         // 当前无结算 取技能
         if(this.gameTemp.actSkill == null) {
-            for(let i=0; i<this.gameParty.battlers.length; i++) {
+            for (let i = 0; i < this.gameParty.battlers.length; i++) {
                 let b = this.gameParty.battlers[i];
-                if(b.playingSkill!=null && b.playingSkill.wtRemain<=0) {
+                if (b.playingSkill != null && b.playingSkill.remainWt <= 0) {
                     this.gameTemp.actSkill = b.playingSkill;
                     this.gameTemp.actBattler = b;
                     break;
@@ -274,18 +288,16 @@ class LogicBattle {
 
         // 无可用技能
         if(this.gameTemp.actSkill == null) {
-            if(this.gameBattle.zeroCast == 1) {
-                // 当回合第1次使用0时延技能
+            if(this.gameParty.remainAct > 0) {
                 this.gameBattle.state = GameBattle.Main;
             } else {
-                this.gameBattle.zeroCast = 0;
                 this.gameBattle.state = GameBattle.TurnEnd;
             }
             return;
         }
 
         // 结算
-        this.doAct();
+        this.lAct.battlerAct();
     }
 
     // 回合结束
@@ -357,110 +369,5 @@ class LogicBattle {
 
     get gameEnemy() {
         return this.gameBattle.enemy;
-    }
-
-    // -----------------------------------------------
-    // 我方技能结算
-    doAct() {
-        let a = this.gameTemp.actBattler;
-        let p = this.gameParty;
-        let d = this.gameBattle.enemy;
-        let s = this.gameTemp.actSkill;
-        let e = a.element;
-        let at = a.at * (100+p.atPlus) / 100;
-        let baseDamage = at * (s.power+p.powerPlus) / 20;
-        let minDamage = 0.05*baseDamage;
-
-        switch (s.type) {
-            case GameSkill.Type.ATTACK:
-                // 修正计算
-                let elementRate = (100 + this.gameParty.ePlus(e.id)) / 100; // 被动提供的元素易伤
-                let dmgRate = this.dmgRateWithDebuffs(d.debuffs, e.id); // 目标debuff提供的易伤
-                let defRate = this.defRateWithDebuffs(d.buffs, e.id); // 目标buff提供的抵抗
-                let fixedDamage = baseDamage * elementRate * dmgRate * defRate; // 修正伤害
-                if(fixedDamage < minDamage) fixedDamage = minDamage;
-
-                // 命中计算
-                let acc = 100;
-                if(s.acc >= 0) {
-                    acc = s.acc + p.acc - d.eva;
-                    if(acc < 0) acc = 0;
-                }
-                this.gameTemp.isHit = this.isHit(acc);
-
-                // 最终伤害
-                let damage = 0;
-                if(this.gameTemp.isHit) {
-                    damage = this.comboRate()*fixedDamage;
-                } else {
-                    damage = 0.1*baseDamage;
-                    if(damage > fixedDamage) {
-                        damage = fixedDamage;
-                    }
-                }
-
-                // 设置伤害
-                if(damage<=0) damage = 1;
-                this.gameBattle.damage = parseInt(damage);
-                this.gameTemp.enemyDamage = this.gameBattle.damage;
-                this.gameTemp.callback = this.enemyDamageCallback
-                break;
-            case GameSkill.Type.Heal:
-                break;
-            case GameSkill.Type.Buff:
-                break;
-            case GameSkill.Type.Debuff:
-                break;
-        }
-    }
-
-    // 敌人承伤回调
-    enemyDamageCallback() {
-        let gameTemp = RV.GameData.Temp;
-        let gameBattle = RV.GameData.Battle;
-        let a = gameTemp.actBattler;
-        let d = gameBattle.enemy;
-        let s = gameTemp.actSkill;
-
-        d.doDamage(gameBattle.damage);
-        gameBattle.log.push(GameBattle.Log.Damage(a.name, s.name, gameBattle.damage));
-
-        if(gameTemp.isHit) {
-            gameBattle.party.combo++;
-            // todo: 附加状态
-        }
-
-        gameTemp.callback = null;
-        gameTemp.actSkill.wtDone = 0;
-        gameTemp.actSkill = null;
-        gameTemp.actBattler.playingSkill = null;
-        gameTemp.actBattler = null;
-    }
-
-    // debuff提供的伤害易伤 增益后倍率
-    dmgRateWithDebuffs(debuffs, elementId) {
-        // todo:
-        return 1;
-    }
-
-    // buff提供的伤害抵抗 减免后所剩倍率
-    defRateWithDebuffs(buffs, elementId) {
-        // todo:
-        return 1;
-    }
-
-    // 命中判定
-    isHit(acc) {
-        return acc > rand(0,99);
-    }
-
-    // 连击倍率
-    comboRate() {
-        let rate = 100;
-        for(let i=0; i<this.gameBattle.party.combo; i++) {
-            rate += 20+i*10;
-        }
-        if(rate>300) rate = 300;
-        return rate / 100;
     }
 }

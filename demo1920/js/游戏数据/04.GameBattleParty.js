@@ -13,6 +13,8 @@ class GameBattleParty {
         this.battlers = []; // <GameBattleActor>
         this.supporter = null;
         this.combo = 0;
+        this.maxAct = 0;
+        this.act = 0;
 
         this.buffs = []; // <GameBuff>
         this.debuffs = []; // <GameDebuff>
@@ -23,6 +25,9 @@ class GameBattleParty {
         this.name = gamePlayer.partyName;
         this.pt = 0;
         this.maxPt = 5;
+        this.maxAct = 1;
+        this.act = 0;
+        this.combo = 0;
         this.buffs = [];
         this.debuffs = [];
         this.maxLp = gamePlayer.maxLp;
@@ -33,6 +38,13 @@ class GameBattleParty {
             this.battlers.push(actor);
         }
         this.supporter = new GameBattleActor(gamePlayer.supporter());
+    }
+
+    newTurn() {
+        this.act = 0;
+        for(let i=0; i<this.battlers.length; i++) {
+            this.battlers[i].played = false;
+        }
     }
 
     // 攻击增强
@@ -125,6 +137,10 @@ class GameBattleParty {
         return 0;
     }
 
+    get remainAct() {
+        return this.maxAct - this.act;
+    }
+
     // 换人
     exchange(index) {
         let t = this.battlers[index];
@@ -136,5 +152,11 @@ class GameBattleParty {
     doDamage(n) {
         this.lp -= n;
         if(this.lp<0) this.lp = 0;
+    }
+
+    // 治疗
+    doHeal(n) {
+        this.lp += n;
+        if(this.lp>this.maxLp) this.lp = this.maxLp;
     }
 }

@@ -24,7 +24,7 @@ class SpriteSkill extends IButton{
             s.drawTextQ(this.gameSkill.pt, 6, 8, IColor.Red(), this.fontSize-4);
         }
         this.setEnable(this.gameParty.pt >= this.gameSkill.pt);
-        if(this.gameBattler.playingSkill != null || this.gameBattler.stun) this.setEnable(false);
+        if(this.gameBattler.playingSkill != null || this.gameBattler.played || this.gameBattler.stun) this.setEnable(false);
     }
 
     updateInput() {
@@ -78,7 +78,7 @@ class SpritePlayingSkill extends ISprite {
         this.clearBitmap();
         this.opacity = 1;
         this.drawTextQ(this.gameSkill.name, 16, 6, IColor.White(), this.fontSize);
-        this.drawTextQ(this.gameSkill.wtRemain, 254, 8, IColor.Blue(), this.fontSize-4);
+        this.drawTextQ(this.gameSkill.remainWt, 254, 8, IColor.Blue(), this.fontSize-4);
 
         if(this.gameTemp.actSkill == this.gameSkill) {
             this.zoomX = 1.2;

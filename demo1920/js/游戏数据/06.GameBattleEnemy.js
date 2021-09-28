@@ -106,4 +106,10 @@ class GameBattleEnemy {
         this.lp -= n;
         if(this.lp<0) this.lp = 0;
     }
+
+    // 治疗
+    doHeal(n) {
+        this.lp += n;
+        if(this.lp>this.maxLp) this.lp = this.maxLp;
+    }
 }

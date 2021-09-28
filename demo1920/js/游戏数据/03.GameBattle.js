@@ -12,6 +12,7 @@ class GameBattle {
 
         this.state = 0; // 状态机
         this.damage = 0; // 当前结算伤害
+        this.healing = 0; // 当前结算治疗
         this.zeroCast = 0; // 本回合0时延技能使用次数
 
         this.exchangeDone = false; // 本回合已换人
@@ -21,6 +22,8 @@ class GameBattle {
         this.turn++;
         this.log.push(GameBattle.Log.TurnBegin(this.turn));
         this.exchangeDone = false;
+        this.zeroCast = 0;
+        this.party.newTurn();
     }
 
     init(enemyId) {

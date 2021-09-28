@@ -12,7 +12,6 @@ class GameSkill {
         this.acc = this.data.acc; // 命中
         this.pt = this.data.pt; // 能量
         this.eRatePlus = this.data.eRate; // 感染率
-
         this.wtDone = 0; // 已经过回合
         this.actorId = 0; // 绑定角色
     }
@@ -29,7 +28,7 @@ class GameSkill {
         return this.data.wt;
     }
 
-    get wtRemain() {
+    get remainWt() {
         let n = this.wt - this.wtDone;
         if(n<0) n=0;
         return n;

@@ -19,12 +19,14 @@ class GameBattleActor {
         this.stun = false;
         this.boost = false;
         this.playingSkill = null;
+        this.played = false;
     }
 
     reset() {
         this.stun = false;
         this.boost = false;
         this.playingSkill = null;
+        this.played = false;
     }
 
     get isEmpty() {
