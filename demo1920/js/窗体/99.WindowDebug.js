@@ -102,8 +102,8 @@ class WindowDebug extends WindowBase {
         }
         gamePlayer.setBattler(0, 2);
         gamePlayer.setBattler(1, 3);
-        gamePlayer.setBattler(2, 5);
-        gamePlayer.setSupporter(1);
+        gamePlayer.setBattler(2, 4);
+        gamePlayer.setSupporter(5);
     };
 
     setTemp() {
