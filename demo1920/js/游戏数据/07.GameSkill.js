@@ -52,3 +52,4 @@ GameSkill.Type.Debuff = 3;
 GameSkill.Ex = {};
 GameSkill.Ex.Win = 1; // 强制胜利
 GameSkill.Ex.PHeal = 2; // 百分比治疗 power%
+GameSkill.Ex.Stun = 3; // 眩晕

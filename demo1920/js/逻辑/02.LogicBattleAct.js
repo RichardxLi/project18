@@ -15,6 +15,7 @@ class LogicBattleAct {
         this.at = this.a.at * (100+this.p.atPlus) / 100;
         this.baseDamage = this.at * (this.s.power+this.p.powerPlus) / 20;
         this.minDamage = 0.05*this.baseDamage;
+        this.gameTemp.isHit = this.makeBattlerHit();    // 命中判定
 
         // 特殊效果结算
         if(this.specialAct(this.s.ex)) return;
@@ -46,8 +47,6 @@ class LogicBattleAct {
                 break;
             }
             case GameSkill.Type.Debuff: {
-                // 命中计算
-                this.gameTemp.isHit = this.makeBattlerHit();
                 // 设置debuff 伤害=0
                 this.gameBattle.damage = 0;
                 this.gameTemp.enemyDamage = this.gameBattle.damage;
@@ -66,9 +65,6 @@ class LogicBattleAct {
         let defRate = this.defRateWithDebuffs(this.d.buffs, this.e.id); // 目标buff提供的抵抗
         let fixedDamage = this.baseDamage * elementRate * dmgRate * defRate; // 修正伤害
         if (fixedDamage < this.minDamage) fixedDamage = this.minDamage;
-
-        // 命中计算
-        this.gameTemp.isHit = this.makeBattlerHit();
 
         // 最终伤害
         let damage = 0;
@@ -141,14 +137,51 @@ class LogicBattleAct {
     }
 
     // 特殊效果结算
-    // @return 是否继续一般结算
+    // @return 是否阻止一般结算
     specialAct(ex) {
+        let stop = false;
         // todo
         switch (ex) {
             case GameSkill.Ex.Win:
+                stop = this.exWin();
                 break;
             case GameSkill.Ex.PHeal:
+                stop = this.exPHeal();
                 break;
+            case GameSkill.Ex.Stun:
+                stop = this.exStun();
+                break;
+        }
+        return stop;
+    }
+
+    exWin() {
+        return true;
+    }
+
+    exPHeal() {
+        // 修正计算
+        this.healing = this.gameParty.maxLp * this.s.power;
+        // 设置治疗
+        this.gameBattle.healing = parseInt(this.healing);
+        this.gameTemp.partyHealing = this.gameBattle.healing;
+        this.gameTemp.callback = this.partyHealedCallback;
+        return true;
+    }
+
+    exStun() {
+        let randIndex = [];
+        if(this.gameTemp.isHit) {
+            for(let i=0; i<this.gameParty.battlers; i++) {
+                randIndex.push(i);
+            }
+        }
+        randIndex = RF.shuffle(randIndex);
+        for(let i=0; i<randIndex.length; i++) {
+            if(!this.gameParty.battlers[i].stun) {
+                this.gameParty.battlers[i].stun = true;
+                break;
+            }
         }
         return false;
     }

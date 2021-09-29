@@ -1,6 +1,6 @@
 /**
  * 战斗逻辑
- * 封装运算单元，管理战斗流程
+ * 管理战斗流程，处理逻辑状态机的运行
  */
 class LogicBattle {
     constructor() {
@@ -105,6 +105,7 @@ class LogicBattle {
     gameBegin() {
         // todo: <开幕>被动 进队列
 
+        // 无条件跳转
         this.gameBattle.state = GameBattle.InitProcess;
     }
 
@@ -112,7 +113,7 @@ class LogicBattle {
     gameBeginProcess() {
         // todo: 当前无结算 取队列
 
-        // todo: 无可用被动
+        // todo: 无可用被动时跳转
         if(true) {
             this.gameBattle.state = GameBattle.TurnBegin;
             return;
@@ -130,6 +131,7 @@ class LogicBattle {
 
         // todo: <中毒>进队列
 
+        // 无条件条状
         this.gameBattle.state = GameBattle.TurnBeginAbility;
     }
 
@@ -137,7 +139,7 @@ class LogicBattle {
     turnBeginAbility() {
         // todo: 当前无结算 取队列
 
-        // todo: 无可用被动
+        // todo: 无可用被动时跳转
         if(true) {
             this.gameBattle.state = GameBattle.TurnBeginStatus;
             return;
@@ -151,7 +153,7 @@ class LogicBattle {
     turnBeginStatus() {
         // todo: 取双方中毒状态
 
-        // todo: 无可用状态
+        // todo: 无可用状态时跳转
         if(true) {
             this.gameBattle.state = GameBattle.TurnBeginDone;
             return;
@@ -188,6 +190,7 @@ class LogicBattle {
             s.wtDone++;
         }
 
+        // 无条件跳转
         this.gameBattle.state = GameBattle.PartyAct;
     }
 
@@ -205,7 +208,7 @@ class LogicBattle {
             }
         }
 
-        // 无可用技能
+        // 无可用技能时跳转
         if(this.gameTemp.actSkill == null) {
             this.gameBattle.state = GameBattle.EnemyAct;
             return;
@@ -219,7 +222,7 @@ class LogicBattle {
     enemyAct() {
         // todo: 当前无结算 取技能
 
-        // todo: 无可用技能
+        // 无可用技能时跳转
         if(true) {
             this.gameBattle.state = GameBattle.ActDone;
             return;
@@ -238,6 +241,7 @@ class LogicBattle {
         // 连击归0
         this.gameParty.combo = 0;
 
+        // 无条件跳转
         this.gameBattle.state = GameBattle.EnemyCast;
     }
 
@@ -245,13 +249,14 @@ class LogicBattle {
     enemyCast() {
         // todo: 技能进队列
 
+        // 无条件跳转
         this.gameBattle.state = GameBattle.EnemyQuickAct;
     }
 
     enemyQuickAct() {
         // todo: 当前无结算 取技能
 
-        // todo: 无可用技能
+        // todo: 无可用技能时跳转
         if(true) {
             this.gameBattle.state = GameBattle.Main;
             return;
@@ -262,6 +267,7 @@ class LogicBattle {
 
     // 等待用户输入
     main() {
+        // 技能选择后跳转
         if(this.gameTemp.selectSkill != null) {
             this.gameBattle.state = GameBattle.Cast;
             return;
@@ -275,8 +281,9 @@ class LogicBattle {
         b.playingSkill = this.gameTemp.selectSkill;
         // 消耗PT
         this.gameParty.pt -= s.pt;
-        this.gameBattle.state = GameBattle.CastProcess;
 
+        // 无条件跳转
+        this.gameBattle.state = GameBattle.CastProcess;
     }
 
     castProcess() {
@@ -300,6 +307,8 @@ class LogicBattle {
 
         this.gameTemp.selectBattler = null;
         this.gameTemp.selectSkill = null;
+
+        // 无条件跳转
         this.gameBattle.state = GameBattle.QuickAct;
     }
 
@@ -317,7 +326,7 @@ class LogicBattle {
             }
         }
 
-        // 无可用技能
+        // 无可用技能时跳转
         if(this.gameTemp.actSkill == null) {
             if(this.gameParty.remainAct > 0) {
                 this.gameBattle.state = GameBattle.Main;
@@ -335,6 +344,7 @@ class LogicBattle {
     turnEnd() {
         // todo: <后发>被动 进队列
 
+        // 无条件跳转
         this.gameBattle.state = GameBattle.TurnEndAbility;
     }
 
@@ -342,7 +352,7 @@ class LogicBattle {
     turnEndAbility() {
         // todo: 当前无结算 取队列
 
-        // todo: 无可用被动
+        // todo: 无可用被动时跳转
         if(true) {
             this.gameBattle.state = GameBattle.TurnBegin;
             return;
@@ -354,19 +364,20 @@ class LogicBattle {
 
     // 换人
     exchange() {
+        // 换人不可用时跳转
         if(this.gameParty.supporter.isEmpty || this.gameParty.pt <= 0 || this.gameBattle.exchangeDone) {
             this.gameBattle.state = GameBattle.Main;
             return;
         }
 
-        // 取消
+        // 取消指令输入后跳转
         if(RC.IsRightClick()) {
             IInput.up = false;
             this.gameBattle.state = GameBattle.Main;
             return;
         }
 
-        // 确认
+        // 主战者选择后跳转
         if(this.gameTemp.selectBattlerIndex >= 0) {
             this.gameParty.pt--;
             this.gameParty.exchange(this.gameTemp.selectBattlerIndex);
