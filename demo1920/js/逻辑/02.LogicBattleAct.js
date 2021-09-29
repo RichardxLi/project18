@@ -47,10 +47,10 @@ class LogicBattleAct {
             }
             case GameSkill.Type.Debuff: {
                 // 命中计算
-                this.makeBattlerHit();
+                this.gameTemp.isHit = this.makeBattlerHit();
                 // 设置debuff 伤害=0
                 this.gameBattle.damage = 0;
-                this.gameTemp.enemyDamage = this.gameBattle.healing;
+                this.gameTemp.enemyDamage = this.gameBattle.damage;
                 this.gameTemp.callback = this.enemyDamagedCallback;
                 break;
             }
@@ -68,7 +68,7 @@ class LogicBattleAct {
         if (fixedDamage < this.minDamage) fixedDamage = this.minDamage;
 
         // 命中计算
-        this.makeBattlerHit();
+        this.gameTemp.isHit = this.makeBattlerHit();
 
         // 最终伤害
         let damage = 0;
@@ -84,13 +84,14 @@ class LogicBattleAct {
         return damage;
     }
 
+    // 队伍命中
     makeBattlerHit() {
         let acc = 100;
         if (this.s.acc >= 0) {
             acc = this.s.acc + this.p.acc - this.d.eva;
             if (acc < 0) acc = 0;
         }
-        this.gameTemp.isHit = this.isHit(acc);
+        return this.isHit(acc);
     }
 
     // 敌人承伤回调
