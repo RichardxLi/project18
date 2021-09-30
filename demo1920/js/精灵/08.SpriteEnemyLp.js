@@ -16,7 +16,7 @@ class SpriteEnemyLp {
         this._frontBmp = RF.LoadCache("System/enemy-lp_1.png");
         this._frontBCof = new IBCof(this._frontBmp, 0, 0, this._back.width, this._back.height);
         this._front = new ISprite(this._frontBCof, viewport);
-        this._front.yx = 1;
+        //this._front.yx = 1; // 使用yx会导致伤害渲染时，x坐标落后1帧
         this._front.z = 101;
 
         this._textBmp = IBitmap.CBitmap(RV.System.Width/3, this.fontSize * 2);
@@ -36,7 +36,6 @@ class SpriteEnemyLp {
         this._back.disposeMin();
         this._front.disposeMin();
         this._text.dispose();
-        //this._frontBCof.dispose();
     }
 
     update() {
@@ -44,13 +43,14 @@ class SpriteEnemyLp {
         // 伤害动画
         if(this._frontBCofX != this.frontX) {
             this.damaging();
+            this.updatePosition();
         }
     }
 
     updatePosition() {
         this._back.x = this.x;
         this._back.y = this.y;
-        this._front.x = this.x;
+        this._front.x = this.x-this._frontBCof.width;
         this._front.y = this.y;
         this._text.x = this.x-RV.System.Padding;
         this._text.y = this.y-this.fontSize;

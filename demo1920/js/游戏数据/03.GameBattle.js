@@ -53,6 +53,11 @@ class GameBattle {
     get exchangeEnable() {
         return this.state == GameBattle.Exchange;
     }
+
+    // 允许输入
+    get InputEnable() {
+        return (this.state == GameBattle.Main) || (this.state == GameBattle.Exchange);
+    }
 }
 
 GameBattle.Init = 0;

@@ -21,10 +21,17 @@ class SpriteTurnInfo {
         this._ptBg.z = 201;
 
         this._ptBmp2 = RF.LoadCache("System/pt-ft.png");
-        this._ptBCof = new IBCof(this._ptBmp2, 0, 0, this._ptBg.width, this._ptBg.height);
-        this._ptFt = new ISprite(this._ptBCof, viewport);
-        this._ptBCof.width = 0;
+        this._ptBCof1 = new IBCof(this._ptBmp2, 0, 0, this._ptBg.width, this._ptBg.height);
+        this._ptFt = new ISprite(this._ptBCof1, viewport);
+        this._ptBCof1.width = 0;
         this._ptFt.z = 202;
+
+        this._ptBCof2 = new IBCof(this._ptBmp1, 0, 0, this._ptBg.width, this._ptBg.height);
+        this._ptMask = new ISprite(this._ptBCof2, viewport);
+        this._ptBCof2.width = 0;
+        this._ptMask.x = 0;
+        this._ptMask.opacity = 0;
+        this._ptMask.z = 203;
 
         this.animFrame = 12; // 动画持续帧数
         this._nowFrame = 0; // 当前播放帧数
@@ -35,13 +42,14 @@ class SpriteTurnInfo {
     dispose() {
         this._turn.disposeMin();
         this._ptBg.disposeMin();
+        this._ptFt.disposeMin();
+        this._ptMask.disposeMin();
     }
 
     update() {
         //this.updatePosition();
         this.drawText();
-        log(this.ptFrontWidth);
-        if(this._ptBCof.width != this.ptFrontWidth) {
+        if(this._ptBCof1.width != this.ptFrontWidth) {
             this.ptChanging();
         }
     }
@@ -53,6 +61,7 @@ class SpriteTurnInfo {
         this._ptBg.y = this.y+this._turn.height;
         this._ptFt.x = this.x-this._ptBg.width/2;
         this._ptFt.y = this._ptBg.y;
+        this._ptMask.y = this._ptBg.y;
     }
 
     drawText() {
@@ -61,13 +70,21 @@ class SpriteTurnInfo {
     }
 
     ptChanging() {
+        if(RV.GameData.Temp.waitingAnim == false) {
+            this._ptMask.x = this.x-this._ptBg.width/2+this._ptBCof1.width;
+            this._ptBCof2.x = this._ptBCof1.width;
+            this._ptBCof2.width = this.ptFrontWidth-this._ptBCof1.width;
+            this._ptMask.opacity = 1;
+        }
         RV.GameData.Temp.waitingAnim = true;
-        this._ptBCof.width = this.ptFrontWidth-1;
+        this._ptBCof1.width = this.ptFrontWidth-1;
+        this._ptMask.opacity = 1 - (this._nowFrame / this.animFrame);
         this._nowFrame++;
         if(this._nowFrame >= this.animFrame) {
             RV.GameData.Temp.waitingAnim = false;
-            this._ptBCof.width = this.ptFrontWidth;
+            this._ptBCof1.width = this.ptFrontWidth;
             this._nowFrame = 0;
+            this._ptMask.opacity = 0;
         }
     }
 
