@@ -73,6 +73,7 @@ class SpritesetBattle extends SpritesetBase{
         this.sSupporter.dispose();
         if(this.sBackground!=null) this.sBackground.disposeMin();
         if(this.sEnemy!=null) this.sEnemy.disposeMin();
+        if(this.sEnemyAction!=null) this.sEnemyAction.dispose();
         super.dispose();
     }
 

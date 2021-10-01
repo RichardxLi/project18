@@ -4,7 +4,6 @@
  * 为方便计算，相关变量作为类的属性传递上下文
  */
 class LogicBattleAct {
-
     // 主战者技能结算
     battlerAct() {
         this.a = this.gameTemp.actBattler;
@@ -32,9 +31,9 @@ class LogicBattleAct {
             }
             case GameSkill.Type.Heal: {
                 // 修正计算
-                this.healing = this.baseDamage * (100 + this.gameParty.healPlus) / 100;
+                let healing = this.baseDamage * (100 + this.gameParty.healPlus) / 100;
                 // 设置治疗
-                this.gameBattle.healing = parseInt(this.healing);
+                this.gameBattle.healing = parseInt(healing);
                 this.gameTemp.partyHealing = this.gameBattle.healing;
                 this.gameTemp.callback = this.partyHealedCallback;
                 break;
@@ -156,14 +155,31 @@ class LogicBattleAct {
     }
 
     exWin() {
+        // 设置伤害
+        this.gameBattle.damage = 0;
+        this.gameTemp.enemyDamage = this.gameBattle.damage;
+        this.gameTemp.callback = this.winCallback;
         return true;
+    }
+
+    winCallback() {
+        let gameTemp = RV.GameData.Temp;
+
+        // todo
+
+        // 结算清空
+        gameTemp.callback = null;
+        gameTemp.actSkill.wtDone = 0;
+        gameTemp.actSkill = null;
+        gameTemp.actBattler.playingSkill = null;
+        gameTemp.actBattler = null;
     }
 
     exPHeal() {
         // 修正计算
-        this.healing = this.gameParty.maxLp * this.s.power;
+        let healing = this.gameParty.maxLp * this.s.power;
         // 设置治疗
-        this.gameBattle.healing = parseInt(this.healing);
+        this.gameBattle.healing = parseInt(healing);
         this.gameTemp.partyHealing = this.gameBattle.healing;
         this.gameTemp.callback = this.partyHealedCallback;
         return true;
