@@ -112,7 +112,7 @@ class SpritesetBattle extends SpritesetBase{
             this.gameTemp.waitingAnim = true;
             let skill = this.gameTemp.actSkill;
             let _sf = this;
-            this.playPartyHealing(skill.animId, healing, function() {
+            this.playEnemyHealing(skill.animId, healing, function() {
                 _sf.gameTemp.waitingAnim = false;
             });
             return;

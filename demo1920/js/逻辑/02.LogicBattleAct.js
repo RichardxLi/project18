@@ -209,7 +209,7 @@ class LogicBattleAct {
         return 1;
     }
 
-    // buff提供的伤害抵抗 减免后所剩倍率
+    // buff提供的伤害抵抗 减免后倍率
     defRateWithDebuffs(buffs, elementId) {
         // todo:
         return 1;
