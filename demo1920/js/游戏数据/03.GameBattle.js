@@ -16,6 +16,7 @@ class GameBattle {
         this.zeroCast = 0; // 本回合0时延技能使用次数
 
         this.exchangeDone = false; // 本回合已换人
+        this.queue = []; // 结算队列
     }
 
     newTurn() {
@@ -36,7 +37,10 @@ class GameBattle {
 
         this.state = GameBattle.Init;
         this.damage = 0;
+        this.healing = 0;
+        this.zeroCast = 0;
         this.exchangeDone = false;
+        this.queue = [];
     }
 
     // 允许技能输入
