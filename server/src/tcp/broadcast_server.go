@@ -28,6 +28,7 @@ func NewServer() *multiServer {
 	return &multiServer{
 		curClientId: 1,
 		clients: make(map[int]*client),
+		broadcastMsg: make(chan []byte, 1),
 	}
 }
 
