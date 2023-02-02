@@ -46,6 +46,15 @@ func (c *client) RecvLoop() {
 			}
 		}
 	}
+
+	// 操作协议
+
+	// 控制协议
+
+	// 验算协议
+
+	//
+
 }
 
 func (c *client) SendLoop() {
